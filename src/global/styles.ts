@@ -25,10 +25,10 @@ export default createGlobalStyle`
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font: 1.2rem 'Poppins', sans-serif;
+    font: 1.2rem 'Roboto', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6, strong {
+  h1, h2, h3, h4, h5, h6, p {
     font-weight: 400;
   }
 `;

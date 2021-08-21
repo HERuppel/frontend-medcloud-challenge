@@ -3,17 +3,19 @@ import { Switch, Route } from 'react-router-dom';
 import Home from '../Home';
 
 import SideBar from '../../components/SideBar';
-import { Container } from './styles';
+import useStyles from './styles';
 import Create from '../Create';
 import List from '../List';
 
 const Main: React.FC = () => {
+  const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
 
   return (
-    <Container>
+    <div className={classes.container}>
       <SideBar open={open} onClose={() => setOpen(!open)} />
       <main>
+        <div className={classes.toolbar} />
         <Switch>
           <Route path="/main/home" exact component={Home} />
           <Route path="/main/create" exact component={Create} />
@@ -21,7 +23,7 @@ const Main: React.FC = () => {
         </Switch>
       </main>
 
-    </Container>
+    </div>
   );
 };
 

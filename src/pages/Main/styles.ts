@@ -1,12 +1,16 @@
-import styled from 'styled-components';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-export const Container = styled.div`
-  display: flex;
-`;
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      display: 'flex'
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3)
+    },
+    toolbar: theme.mixins.toolbar,
+  })
+);
 
-export const Content = styled.div`
-  flex-grow: 1;
-  padding: 10px;
-`;
-
-
+export default useStyles;

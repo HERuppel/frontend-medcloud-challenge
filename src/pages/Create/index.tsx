@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography } from '@material-ui/core';
 import useStyles from './styles';
-import commonStyles from '../../global/common/commonStyles';
+import { Loading } from '../../global/common/commonStyles';
 
 const Create: React.FC = () => {
   const classes = useStyles();
-  const common = commonStyles({ loadingSize: 10 });
   const [loading, setLoading] = useState<boolean>(true);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,7 +15,6 @@ const Create: React.FC = () => {
 
   return (
     <div>
-      <h1>Create</h1>
       <Typography>Create</Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
@@ -47,7 +45,7 @@ const Create: React.FC = () => {
           className={classes.button}
           color="primary"
           variant="contained"
-          startIcon={loading ? <div className={common.loadingAnimation}></div> : 'hi'}
+          startIcon={loading ? <Loading loadingSize={20} /> : 'hi'}
         >
             Criar
         </Button>

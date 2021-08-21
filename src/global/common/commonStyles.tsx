@@ -34,5 +34,3 @@ export const Loading = ({ loadingSize }: ILoading): JSX.Element => {
   );
 };
 
-export default commonStyles;
-

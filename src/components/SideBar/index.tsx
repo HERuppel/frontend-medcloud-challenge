@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Drawer, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, Typography } from '@material-ui/core';
 import { Home, NoteAdd, List as ListIcon } from '@material-ui/icons';
 
 import useStyles from './styles';
@@ -17,7 +17,11 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
   const menu = (
     <div>
       <div className={classes.header}>
-        <h1>MENU</h1>
+        <Typography
+          variant="h4"
+        >
+          Menu
+        </Typography>
       </div>
       <List>
         <NavLink className={classes.navLink} to="/main/home">

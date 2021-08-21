@@ -24,9 +24,8 @@ export const theme = createTheme({
     action: {
       hover: '#F0f',
       selected: '#F0F',
-      activatedOpacity: .5,
       focus: '#f0f',
-      active: '#f0f',
+      active: colors.blueSaphire,
     },
     common: {
       black: colors.blackOlive,

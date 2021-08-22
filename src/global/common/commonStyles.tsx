@@ -29,8 +29,7 @@ export const Loading = ({ loadingSize }: ILoading): JSX.Element => {
   const classes = commonStyles({ loadingSize });
 
   return (
-    <div className={classes.loadingAnimation}>
-    </div>
+    <div className={classes.loadingAnimation} />
   );
 };
 

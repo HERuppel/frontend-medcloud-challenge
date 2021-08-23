@@ -1,4 +1,5 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core';
+import { colors } from '../../global/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -9,38 +10,36 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       width: '100%',
       display: 'flex',
-      alignItems: 'center',
       flexDirection: 'column'
-    },
-    title: {
-      fontWeight: 'bold',
-      fontSize: '3rem',
-      textAlign: 'center'
     },
     form: {
       width: '100%',
       height: '100%',
-      display: 'grid',
-      gridTemplateRows: 'repeat(6, 1fr)',
-      gridTemplateColumns: 'repeat(2, 1fr)'
     },
     input: {
       width: '80%',
+      height: 30,
       maxWidth: '600px',
-      color: 'black',
-      margin: '10px',
-      backgroundColor: '#fff',
+    },
+    basicData: {
+      backgroundColor: colors.paleSilver,
+
+    },
+    name: {
+      display: 'flex',
+      justifyContent: 'center'
+    },
+    pickers: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr',
+      placeItems: 'center',
+      alignItems: 'center',
+      padding: 50
     },
     button: {
       width: '70%',
       maxWidth: '900px',
       margin: '20px'
-    },
-    handleErrorSuccess: {
-      width: '70%',
-      maxWidth: '900px',
-      gridColumn: '1/3',
-      justifySelf: 'center',
     },
     '@media (max-width: 1000px)': {
       input: { width: '90%' },

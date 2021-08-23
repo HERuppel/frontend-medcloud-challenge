@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     navLink: {
       textDecoration: 'none',
-      color: colors.blackOlive
+      color: colors.blackOlive,
+    },
+    activeNavLink: {
+      color: colors.blueSaphire,
     }
   })
 );

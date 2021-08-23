@@ -14,8 +14,7 @@ const Main: React.FC = () => {
   return (
     <div className={classes.container}>
       <SideBar open={open} onClose={() => setOpen(!open)} />
-      <main>
-        <div className={classes.toolbar} />
+      <main className={classes.main}>
         <Switch>
           <Route path="/main/home" exact component={Home} />
           <Route path="/main/create" exact component={Create} />

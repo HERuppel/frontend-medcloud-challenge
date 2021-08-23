@@ -2,16 +2,16 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {
-      width: '90%'
+    root: {
+      '& > *': {
+        borderBottom: 'unset',
+      },
     },
-    content: {
-      display: 'flex',
-      justifyContent: 'center'
+    container: {
+      width: '100%',
     },
     title: {
       fontWeight: 'bold',
-      fontSize: '4rem'
     }
   })
 );

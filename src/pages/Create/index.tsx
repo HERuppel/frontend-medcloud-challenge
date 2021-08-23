@@ -45,7 +45,7 @@ const Create: React.FC = () => {
           className={classes.button}
           color="primary"
           variant="contained"
-          startIcon={loading ? <Loading loadingSize={20} /> : 'hi'}
+          startIcon={loading ? <Loading loadingSize={10} /> : 'hi'}
         >
             Criar
         </Button>

@@ -24,7 +24,7 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
         </Typography>
       </div>
       <List>
-        <NavLink className={classes.navLink} to="/main/home">
+        <NavLink activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/home">
           <ListItem button key="home">
             <ListItemIcon>
               <Home />
@@ -32,7 +32,7 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
             <ListItemText primary="Home" />
           </ListItem>
         </NavLink>
-        <NavLink className={classes.navLink} to="/main/create">
+        <NavLink activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/create">
           <ListItem button key="create">
             <ListItemIcon>
               <NoteAdd />
@@ -40,7 +40,7 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
             <ListItemText primary="Criar" />
           </ListItem>
         </NavLink>
-        <NavLink className={classes.navLink} to="/main/list">
+        <NavLink activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/list">
           <ListItem button key="list">
             <ListItemIcon>
               <ListIcon />

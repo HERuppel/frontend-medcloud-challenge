@@ -4,10 +4,10 @@ import { colors } from './colors';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: colors.blueSaphire,
+      main: '#bb2727',
     },
     secondary: {
-      main: colors.verdiGris
+      main: '#bb2727'
     },
     error: {
       main: '#bb2727'
@@ -23,9 +23,9 @@ export const theme = createTheme({
     },
     action: {
       hover: colors.isabelline,
-      selected: '#F0F',
-      focus: '#f0f',
-      active: colors.blueSaphire,
+      selected: colors.isabelline,
+      focus: colors.isabelline,
+      active: '#bb2727',
 
     },
     common: {
@@ -37,6 +37,9 @@ export const theme = createTheme({
     fontFamily: [
       'Roboto',
       'sans-serif'
-    ].join(',')
+    ].join(','),
+    allVariants: {
+      color: '#bb2727'
+    }
   }
 });

@@ -5,7 +5,7 @@ export interface IPatient {
   birthdate: string
   age: number
   rg: string
-  sex: boolean
+  sex: string
   maritalStatus: number
   address: string
   city: string

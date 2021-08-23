@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useStyles from './styles';
-import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box } from '@material-ui/core';
-import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
+import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box, MenuItem, Menu } from '@material-ui/core';
+import { KeyboardArrowUp, KeyboardArrowDown, MoreHoriz } from '@material-ui/icons';
 
 import { IPatient } from '../../utils/interfaces';
 
@@ -19,6 +19,17 @@ const Table = ({ patients }: ITable): JSX.Element => {
 
   const Row = ({ patient }: IRow): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
+    const [editOrDelete, setEditOrDelete] = useState<number>();
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
 
     return (
       <>
@@ -28,13 +39,25 @@ const Table = ({ patients }: ITable): JSX.Element => {
               {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </IconButton>
           </TableCell>
-          <TableCell component="th" scope="row">
-            {patient.firstName}
+          <TableCell component="th" scope="row">{patient.firstName}</TableCell>
+          <TableCell align="left">{patient.lastName}</TableCell>
+          <TableCell align="left">{patient.age}</TableCell>
+          <TableCell align="left">{patient.sex ? 'Masculino' : 'Feminino'}</TableCell>
+          <TableCell align="center">
+            <IconButton aria-label="expand row" size="small" onClick={handleClick}>
+              <MoreHoriz />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Editar</MenuItem>
+              <MenuItem onClick={handleClose}>Excluir</MenuItem>
+            </Menu>
           </TableCell>
-          <TableCell align="right">{patient.lastName}</TableCell>
-          <TableCell align="right">{patient.age}</TableCell>
-          <TableCell align="right">{patient.sex}</TableCell>
-          <TableCell align="right"></TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -88,10 +111,10 @@ const Table = ({ patients }: ITable): JSX.Element => {
           <TableRow>
             <TableCell />
             <TableCell>Nome</TableCell>
-            <TableCell align="right">Sobrenome</TableCell>
-            <TableCell align="right">Idade</TableCell>
-            <TableCell align="right">Sexo</TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell align="left">Sobrenome</TableCell>
+            <TableCell align="left">Idade</TableCell>
+            <TableCell align="left">Sexo</TableCell>
+            <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

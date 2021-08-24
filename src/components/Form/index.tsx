@@ -10,22 +10,35 @@ import useStyles from './styles';
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { IPatient } from '../../utils/interfaces';
+import { useApi } from '../../hooks/patientApi';
 
 const Form = (): JSX.Element => {
   const classes = useStyles();
+  const { create } = useApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const { register, handleSubmit, control } = useForm<IPatient>();
 
   const onSubmit: SubmitHandler<IPatient> = async (data): Promise<void> => {
     console.log(data);
-    setLoading(!loading);
+    setLoading(true);
     if (!data.firstName) { setError('Insira o nome'); return; }
     if (!data.lastName) { setError('Insira o nome'); return; }
+
+    try {
+      (async(): Promise<void> => {
+        //await create(data);
+        console.log('aqui');
+      })();
+    } catch (e) {
+      setError('Ocorreu um erro na criação.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const basicData = (
-    <div className={classes.basicData}>
+    <div className={classes.sectionContainer}>
       <Typography className={classes.sectionTitle}>Informações básicas</Typography>
       <div className={classes.name}>
         <TextField
@@ -39,8 +52,7 @@ const Form = (): JSX.Element => {
             autoComplete: 'off'
           }}
           className={classes.input}
-          required
-          {...register('firstName', { required: true } )}
+          {...register('firstName' )}
         />
         <TextField
           id="outlined-basic"
@@ -52,8 +64,7 @@ const Form = (): JSX.Element => {
             autoComplete: 'off'
           }}
           className={classes.input}
-          required
-          {...register('lastName', { required: true } )}
+          {...register('lastName' )}
         />
       </div>
       <div className={classes.pickers}>
@@ -130,8 +141,97 @@ const Form = (): JSX.Element => {
   );
 
   const contactData = (
-    <div className={classes.contactData}>
+    <div className={classes.sectionContainer}>
+      <Typography variant="h2" className={classes.sectionTitle}>Informações adicionais e de contato</Typography>
+      <div className={classes.contactFields}>
+        <TextField
+            type="text"
+            id="outlined-basic"
+            label="Telefone"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira o Telefone'}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('phone')}
+          />
+        <TextField
+            type="text"
+            id="outlined-basic"
+            label="Endereço"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira o Endereço'}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('address')}
+          />
+        <TextField
+            type="number"
+            id="outlined-basic"
+            label="RG"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira o RG'}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('rg')}
+          />
+        <TextField
+            type="text"
+            id="outlined-basic"
+            label="Cidade"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira a Cidade'}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('city')}
+          />
+        <TextField
+            type="text"
+            id="outlined-basic"
+            label="Ocupação"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira a Ocupação'}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('occupation')}
+          />
+        <TextField
+            type="text"
+            id="outlined-basic"
+            label="Estado"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira o Estado'}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('state')}
+          />
+      </div>
+    </div>
+  );
 
+  const medicalInfo = (
+    <div className={classes.sectionContainer}>
+      <Typography variant="h2" className={classes.sectionTitle}>Informações sobre a consulta</Typography>
+      <div>
+
+      </div>
     </div>
   );
 
@@ -140,6 +240,7 @@ const Form = (): JSX.Element => {
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         {basicData}
         {contactData}
+        {medicalInfo}
         <Button
           type="submit"
           className={classes.button}

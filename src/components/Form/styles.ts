@@ -25,8 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       top: 0,
       left: '5%',
+      color: colors.verdiGris
     },
-    basicData: {
+    sectionContainer: {
       backgroundColor: colors.isabelline,
       borderRadius: 5,
       display: 'flex',
@@ -49,19 +50,19 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '40px 0 0 0',
       alignItems: 'start'
     },
-    contactData: {
-      backgroundColor: colors.isabelline,
-      borderRadius: 5,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: '50px 0'
+    contactFields: {
+      display: 'grid',
+      gridTemplateRows: '1fr 1fr 1fr',
+      gridTemplateColumns: '1fr 1fr',
+      placeItems: 'center',
+      gap: 50,
+      paddingTop: 20
     },
     button: {
-      width: '70%',
-      maxWidth: '900px',
+      width: '100%',
       margin: '20px',
-      alignSelf: 'center'
+      alignSelf: 'center',
+      color: colors.white
     },
     '@media (max-width: 1000px)': {
       input: { width: '90%' },

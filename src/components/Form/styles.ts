@@ -65,6 +65,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     medicalFiels: {
       paddingTop: 20,
+      display: 'grid',
+      gridTemplateRows: '1fr 1fr',
+      placeItems: 'center'
+    },
+    chipContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      margin: theme.spacing(1),
     },
     button: {
       width: '100%',

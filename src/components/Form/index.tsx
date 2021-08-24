@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, InputLabel, RadioGroup, FormControl, FormControlLabel, FormLabel, Radio, Select, MenuItem, Typography } from '@material-ui/core';
+import { TextField, Button, InputLabel, RadioGroup, FormControl, FormControlLabel, FormLabel, Radio, Select, MenuItem, Typography, Chip } from '@material-ui/core';
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -19,13 +19,21 @@ const Form = (): JSX.Element => {
   const [error, setError] = useState<string>();
   const { register, handleSubmit, control } = useForm<IPatient>();
 
-  const onSubmit: SubmitHandler<IPatient> = async (data): Promise<void> => {
+  const onSubmit: SubmitHandler<IPatient> = async (data, e): Promise<void> => {
+    e?.preventDefault();
     console.log(data);
-    setLoading(true);
     if (!data.firstName) { setError('Insira o nome'); return; }
-    if (!data.lastName) { setError('Insira o nome'); return; }
+    if (!data.lastName) { setError('Insira o sobrenome'); return; }
+    if (!data.phone) { setError('Insira o telefone'); return; }
+    if (!data.rg) { setError('Insira o RG'); return; }
+    if (!data.occupation) { setError('Insira a ocupação'); return; }
+    if (!data.address) { setError('Insira o endereço'); return; }
+    if (!data.city) { setError('Insira a cidade'); return; }
+    if (!data.state) { setError('Insira o estado'); return; }
+    if (!data.subject) { setError('Insira o assunto da consulta'); return; }
 
     try {
+      setLoading(true);
       (async(): Promise<void> => {
         //await create(data);
         console.log('aqui');
@@ -48,6 +56,7 @@ const Form = (): JSX.Element => {
           variant="outlined"
           size="small"
           error={error === 'Insira o nome'}
+          helperText={error === 'Insira o nome' && error}
           InputProps={{
             autoComplete: 'off'
           }}
@@ -59,6 +68,7 @@ const Form = (): JSX.Element => {
           label="Sobrenome"
           variant="outlined"
           error={error === 'Insira o sobrenome'}
+          helperText={error === 'Insira o sobrenome' && error}
           size="small"
           InputProps={{
             autoComplete: 'off'
@@ -145,83 +155,86 @@ const Form = (): JSX.Element => {
       <Typography variant="h2" className={classes.sectionTitle}>Informações adicionais e de contato</Typography>
       <div className={classes.contactFields}>
         <TextField
-            type="text"
-            id="outlined-basic"
-            label="Telefone"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira o Telefone'}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('phone')}
+          type="number"
+          id="outlined-basic"
+          label="Telefone"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira o telefone'}
+          helperText={error === 'Insira o telefone' && error}
+          className={classes.input}
+          {...register('phone')}
+        />
+        <TextField
+          type="text"
+          id="outlined-basic"
+          label="Endereço"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira o endereço'}
+          helperText={error === 'Insira o endereço' && error}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.input}
+          {...register('address')}
           />
         <TextField
-            type="text"
-            id="outlined-basic"
-            label="Endereço"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira o Endereço'}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('address')}
-          />
+          type="number"
+          id="outlined-basic"
+          label="RG"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira o RG'}
+          helperText={error === 'Insira o RG' && error}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.input}
+          {...register('rg')}
+        />
         <TextField
-            type="number"
-            id="outlined-basic"
-            label="RG"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira o RG'}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('rg')}
-          />
+          type="text"
+          id="outlined-basic"
+          label="Cidade"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira a cidade'}
+          helperText={error === 'Insira a cidade' && error}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.input}
+          {...register('city')}
+        />
         <TextField
-            type="text"
-            id="outlined-basic"
-            label="Cidade"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira a Cidade'}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('city')}
-          />
+          type="text"
+          id="outlined-basic"
+          label="Ocupação"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira a ocupação'}
+          helperText={error === 'Insira a ocupação' && error}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.input}
+          {...register('occupation')}
+        />
         <TextField
-            type="text"
-            id="outlined-basic"
-            label="Ocupação"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira a Ocupação'}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('occupation')}
-          />
-        <TextField
-            type="text"
-            id="outlined-basic"
-            label="Estado"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira o Estado'}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('state')}
-          />
+          type="text"
+          id="outlined-basic"
+          label="Estado"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira o estado'}
+          helperText={error === 'Insira o estado' && error}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.input}
+          {...register('state')}
+        />
       </div>
     </div>
   );
@@ -237,13 +250,19 @@ const Form = (): JSX.Element => {
           variant="outlined"
           multiline
           minRows={5}
-          error={error === 'Insira o Assunto da Consulta'}
+          error={error === 'Insira o assunto da consulta'}
+          helperText={error === 'Insira o assunto da consulta' && error}
           InputProps={{
             autoComplete: 'off'
           }}
           className={classes.textarea}
           {...register('subject')}
         />
+        <div className={classes.chipContainer}>
+          {new Array(10).fill(0).map((item, index) => (
+            <Chip variant="outlined" key={index} label={item + index} color="secondary" onDelete={() => console.log('delete')} />
+          ))}
+        </div>
       </div>
     </div>
   );

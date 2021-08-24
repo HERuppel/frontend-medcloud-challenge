@@ -6,7 +6,7 @@ import { IPatient } from '../utils/interfaces';
 interface IContextData {
   patientList: IPatient[];
   create: (patient: IPatient) => Promise<void>;
-  load: () => Promise<void>;
+  list: () => Promise<void>;
 }
 
 const PatientApiContext = createContext<IContextData>({} as IContextData);
@@ -28,18 +28,19 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
     setPatientList(newList);
   };
 
-  const load = async(): Promise<void> => {
+  const list = async(): Promise<void> => {
     const response = await api.get('listPatients');
-    const newList = { ...response.data?.Items };
 
-    setPatientList(newList);
+    console.log('NEW', response.data?.Items);
+
+    setPatientList(response.data?.Items);
   };
 
   return (
     <PatientApiContext.Provider
       value={{
         create,
-        load,
+        list,
         patientList
       }}
     >

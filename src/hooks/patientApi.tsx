@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext } from 'react';
 import { api } from '../services/api';
 
-import { IPatient } from '../utils/interfaces';
+import { IFormPatient, IPatient } from '../utils/interfaces';
 
 interface IContextData {
   patientList: IPatient[];
-  create: (patient: IPatient) => Promise<void>;
+  create: (patient: IFormPatient) => Promise<void>;
   list: () => Promise<void>;
 }
 
@@ -18,8 +18,9 @@ interface IProviderChildren {
 export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IProviderChildren) => {
   const [patientList, setPatientList] = useState<IPatient[]>([]);
 
-  const create = async(patient: IPatient): Promise<void> => {
-    const response = await api.post('createPatient', { ...patient });
+  const create = async(patient: IFormPatient): Promise<void> => {
+    const treatedPatient: IFormPatient = { ...patient, gender: Number(patient.gender), maritalStatus: Number(patient.maritalStatus) };
+    const response = await api.post('createPatient', { ...treatedPatient });
 
     const newPatient = { ...response.data };
     const newList = { ...patientList };
@@ -29,7 +30,7 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
   };
 
   const list = async(): Promise<void> => {
-    const response = await api.get('listPatients');
+    const response = await api.get('listPatients?offset=10&lastItemReceived=0');
 
     console.log('NEW', response.data?.Items);
 

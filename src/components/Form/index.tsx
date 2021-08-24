@@ -9,7 +9,7 @@ import { Loading } from '../../global/common/commonStyles';
 import useStyles from './styles';
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { IPatient } from '../../utils/interfaces';
+import { IFormPatient } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
 
 const Form = (): JSX.Element => {
@@ -17,9 +17,9 @@ const Form = (): JSX.Element => {
   const { create } = useApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const { register, handleSubmit, control } = useForm<IPatient>();
+  const { register, handleSubmit, control } = useForm<IFormPatient>();
 
-  const onSubmit: SubmitHandler<IPatient> = async (data, e): Promise<void> => {
+  const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
     e?.preventDefault();
     console.log(data);
     if (!data.firstName) { setError('Insira o nome'); return; }
@@ -83,19 +83,20 @@ const Form = (): JSX.Element => {
           <Controller
             render={({ field: { onChange, value } }) => (
               <RadioGroup
-                aria-label="sex"
-                defaultValue="female"
-                value={value ? value : 'female'}
+                aria-label="gender"
+                defaultValue={'1'}
+                value={value ? value : '1'}
                 onChange={onChange}
                 name="radio-buttons-group"
               >
-                <FormControlLabel value="female" control={<Radio />} label="Feminino" />
-                <FormControlLabel value="male" control={<Radio />} label="Masculino" />
+                <FormControlLabel value={'1'} control={<Radio />} label="Feminino" />
+                <FormControlLabel value={'2'} control={<Radio />} label="Masculino" />
+                <FormControlLabel value={'3'} control={<Radio />} label="Outro" />
               </RadioGroup>
             )}
             control={control}
-            defaultValue="female"
-            name="sex"
+            defaultValue={'1'}
+            name="gender"
           />
         </FormControl>
         <FormControl>

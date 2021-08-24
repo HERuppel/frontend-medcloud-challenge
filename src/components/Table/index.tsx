@@ -41,8 +41,8 @@ const Table = ({ patients }: ITable): JSX.Element => {
           </TableCell>
           <TableCell component="th" scope="row">{patient.firstName}</TableCell>
           <TableCell align="left">{patient.lastName}</TableCell>
-          <TableCell align="left">{patient.age}</TableCell>
-          <TableCell align="left">{patient.sex ? 'Masculino' : 'Feminino'}</TableCell>
+          <TableCell align="left">calcular idade</TableCell>
+          <TableCell align="left">{patient.gender}</TableCell>
           <TableCell align="center">
             <IconButton aria-label="expand row" size="small" onClick={handleClick}>
               <MoreHoriz />
@@ -67,7 +67,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
                   Detalhes
                 </Typography>
                 <div>
-                  <Typography>{patient.sex}</Typography>
+                  <Typography>{patient.gender}</Typography>
                   <Typography>{patient.address}</Typography>
                   <Typography>{patient.city}</Typography>
                   <Typography>{patient.state}</Typography>

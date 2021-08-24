@@ -40,7 +40,7 @@ const Form = (): JSX.Element => {
   const basicData = (
     <div className={classes.sectionContainer}>
       <Typography className={classes.sectionTitle}>Informações básicas</Typography>
-      <div className={classes.name}>
+      <div className={classes.basicFields}>
         <TextField
           type="text"
           id="outlined-basic"
@@ -229,8 +229,21 @@ const Form = (): JSX.Element => {
   const medicalInfo = (
     <div className={classes.sectionContainer}>
       <Typography variant="h2" className={classes.sectionTitle}>Informações sobre a consulta</Typography>
-      <div>
-
+      <div className={classes.medicalFiels}>
+        <TextField
+          type="text"
+          id="outlined-basic"
+          label="Assunto da consulta"
+          variant="outlined"
+          multiline
+          minRows={5}
+          error={error === 'Insira o Assunto da Consulta'}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.textarea}
+          {...register('subject')}
+        />
       </div>
     </div>
   );

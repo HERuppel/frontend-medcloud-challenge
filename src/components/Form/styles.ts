@@ -19,13 +19,18 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 30,
       maxWidth: '600px',
     },
+    textarea: {
+      width: '90%',
+      resize: 'vertical',
+    },
     sectionTitle: {
       fontWeight: 'bold',
       fontSize: '2rem',
       position: 'absolute',
       top: 0,
       left: '5%',
-      color: colors.verdiGris
+      color: colors.verdiGris,
+      paddingTop: 10
     },
     sectionContainer: {
       backgroundColor: colors.isabelline,
@@ -36,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '50px 0',
       position: 'relative'
     },
-    name: {
+    basicFields: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
       placeItems: 'center',
@@ -57,6 +62,9 @@ const useStyles = makeStyles((theme: Theme) =>
       placeItems: 'center',
       gap: 50,
       paddingTop: 20
+    },
+    medicalFiels: {
+      paddingTop: 20,
     },
     button: {
       width: '100%',

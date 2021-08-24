@@ -4,10 +4,10 @@ import { colors } from './colors';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#bb2727',
+      main: colors.verdiGris,
     },
     secondary: {
-      main: '#bb2727'
+      main: colors.verdiGris
     },
     error: {
       main: '#bb2727'
@@ -25,7 +25,7 @@ export const theme = createTheme({
       hover: colors.isabelline,
       selected: colors.isabelline,
       focus: colors.isabelline,
-      active: '#bb2727',
+      active: colors.verdiGris,
 
     },
     common: {
@@ -38,8 +38,5 @@ export const theme = createTheme({
       'Roboto',
       'sans-serif'
     ].join(','),
-    allVariants: {
-      color: '#bb2727'
-    }
   }
 });

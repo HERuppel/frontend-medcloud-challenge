@@ -9,7 +9,6 @@ const Create: React.FC = () => {
   return (
     <div className={classes.container}>
       <Typography className={classes.title} variant="h2">Criar ficha de paciente</Typography>
-      <br />
       <Form />
     </div>
   );

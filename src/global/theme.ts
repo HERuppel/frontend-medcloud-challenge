@@ -38,5 +38,15 @@ export const theme = createTheme({
       'Roboto',
       'sans-serif'
     ].join(','),
+  },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          margin: 0,
+          padding: 0
+        }
+      }
+    }
   }
 });

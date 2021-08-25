@@ -1,10 +1,10 @@
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { colors } from '../../global/colors';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     container: {
-      width: '90%'
+      width: '90%',
     },
     content: {
       display: 'flex',
@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       fontWeight: 'bold',
       fontSize: '4rem',
-      color: colors.blueSaphire
     }
   })
 );

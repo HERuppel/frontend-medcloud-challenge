@@ -5,11 +5,13 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
       [theme.breakpoints.up('sm')]: {
-        width: 300,
+        width: 250,
         flexShrink: 0,
       }
     },
-    drawerPaper: { width: 300 },
+    drawerPaper: {
+      width: 250
+    },
     header: {
       width: '100%',
       height: 70,

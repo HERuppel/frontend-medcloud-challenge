@@ -7,13 +7,15 @@ import useStyles from './styles';
 import Create from '../Create';
 import List from '../List';
 import { PatientApiProvider } from '../../hooks/patientApi';
+import { CssBaseline } from '@material-ui/core';
 
 const Main: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(true);
 
   return (
-    <div className={classes.container}>
+    <div className={classes.root}>
+      <CssBaseline />
       <SideBar open={open} onClose={() => setOpen(!open)} />
       <main className={classes.main}>
         <Switch>

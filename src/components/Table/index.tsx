@@ -30,6 +30,14 @@ const Table = ({ patients }: ITable): JSX.Element => {
       setAnchorEl(null);
     };
 
+    const calculateAge = (timestamp: number) => {
+      const birthdate = new Date(timestamp);
+      const diff = Date.now() - birthdate.getTime();
+      const age = new Date(diff);
+
+      return Math.abs(age.getUTCFullYear() - 1970);
+    };
+
 
     return (
       <>
@@ -41,7 +49,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
           </TableCell>
           <TableCell component="th" scope="row">{patient.firstName}</TableCell>
           <TableCell align="left">{patient.lastName}</TableCell>
-          <TableCell align="left">calcular idade</TableCell>
+          <TableCell align="left">{calculateAge(Number(patient.birthdate))}</TableCell>
           <TableCell align="left">{patient.gender}</TableCell>
           <TableCell align="center">
             <IconButton aria-label="expand row" size="small" onClick={handleClick}>

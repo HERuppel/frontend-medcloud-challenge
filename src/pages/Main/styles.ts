@@ -2,19 +2,18 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {
+    root: {
       display: 'flex',
+      height: '100vh',
       width: '100%'
-    },
-    content: {
     },
     toolbar: theme.mixins.toolbar,
     main: {
-      width: '100%',
-      textAlign: 'center',
       flexGrow: 1,
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      paddingVertical: theme.spacing(1),
+      textAlign: 'center'
     }
   })
 );

@@ -6,6 +6,7 @@ import { api } from '../../services/api';
 import { IPatient } from '../../utils/interfaces';
 import Table from '../../components/Table';
 import { useApi } from '../../hooks/patientApi';
+import LottieLoading from '../../components/LottieLoading';
 
 
 
@@ -36,9 +37,9 @@ const List: React.FC = () => {
     <div className={classes.container}>
       {
         loading
-          ? <p>Carregando...</p>
+          ? <LottieLoading />
           : <>
-              <Typography className={classes.title} variant="h2"  >
+              <Typography className={classes.title} color="primary" variant="h2"  >
                 Lista de pacientes
               </Typography>
               <br />

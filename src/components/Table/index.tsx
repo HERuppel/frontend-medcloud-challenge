@@ -38,6 +38,8 @@ const Table = ({ patients }: ITable): JSX.Element => {
       return Math.abs(age.getUTCFullYear() - 1970);
     };
 
+    const formatBirthdate = (timestamp: number): string => new Date(timestamp).toLocaleDateString('pt-BR');
+
 
     return (
       <>
@@ -71,20 +73,22 @@ const Table = ({ patients }: ITable): JSX.Element => {
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box className={classes.box} margin={1}>
-                  <div>
-                    <div className={classes.personal}>
-                      <Typography><span>Nome completo: </span>{patient.firstName} {patient.lastName}</Typography>
-                      <Typography><span>Registro Geral: </span>{patient.rg}</Typography>
-                    </div>
-                    <div className={classes.medical}>
-                      <Typography variant="h6">Informações médicas</Typography>
-                      <Typography><span>Motivo da consulta: </span>{patient.subject}</Typography>
-                    </div>
+                  <div className={classes.personal}>
+                    <Typography variant="h6">Informações Pessoais</Typography>
+                    <Typography><span>Nome completo: </span>{patient.firstName} {patient.lastName}</Typography>
+                    <Typography><span>Registro Geral: </span>{patient.rg}</Typography>
+                    <Typography><span>Data de nascimento: </span>{formatBirthdate(Number(patient.birthdate))}</Typography>
+                    <Typography><span>Estado civil: </span>{patient.maritalStatus}</Typography>
                   </div>
                   <div className={classes.contact}>
                     <Typography variant="h6">Informações de contato</Typography>
                     <Typography><span>Telefone: </span>{patient.phone}</Typography>
                     <Typography><span>Endereço: </span>{patient.address} - {patient.city}, {patient.state}</Typography>
+                    <Typography><span>Ocupação: </span>{patient.occupation}</Typography>
+                  </div>
+                  <div className={classes.medical}>
+                    <Typography variant="h6">Informações médicas</Typography>
+                    <Typography><span>Motivo da consulta: </span>{patient.subject}</Typography>
                   </div>
               </Box>
             </Collapse>

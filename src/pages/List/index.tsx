@@ -34,10 +34,11 @@ const List: React.FC = () => {
         loading
           ? <LottieLoading />
           : <>
-              <Typography className={classes.title} color="primary" variant="h2"  >
-                Lista de pacientes
-              </Typography>
-              <br />
+              <div className={classes.header}>
+                <Typography className={classes.title} variant="h2" >
+                  Lista de pacientes
+                </Typography>
+              </div>
               <div className={classes.content}>
                 <Table  patients={patientList}/>
               </div>

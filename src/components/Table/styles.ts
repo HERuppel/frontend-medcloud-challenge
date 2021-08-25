@@ -14,20 +14,15 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       fontWeight: 'bold',
     },
-    infos: {
-      display: 'flex',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
+    box: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 30,
 
       '& span': {
         color: theme.palette.primary.dark,
         fontWeight: 'bold'
       }
-    },
-    box: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      placeItems: 'start start'
     },
     personal: {
 
@@ -36,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     medical: {
-      alignSelf: 'flex-start'
+      paddingBottom: theme.spacing(5)
     }
   })
 );

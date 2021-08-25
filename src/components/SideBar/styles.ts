@@ -18,15 +18,21 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.blackOlive,
-      color: colors.isabelline
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.action.hover
     },
     navLink: {
       textDecoration: 'none',
-      color: colors.blackOlive,
+      color: theme.palette.common.black,
+
+      '&:hover': {
+        background: theme.palette.action.hover,
+        transition: '300ms'
+      }
     },
     activeNavLink: {
-      color: colors.verdiGris,
+      color: theme.palette.action.active,
+      background: theme.palette.action.focus,
     },
     itemText: {
       marginLeft: 30

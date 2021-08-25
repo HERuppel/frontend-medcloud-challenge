@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
       paddingVertical: theme.spacing(1),
-      textAlign: 'center'
+      textAlign: 'center',
+      marginTop: theme.spacing(3)
     }
   })
 );

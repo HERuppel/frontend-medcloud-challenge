@@ -22,11 +22,10 @@ export const theme = createTheme({
       main: '#2165e4'
     },
     action: {
-      hover: colors.isabelline,
       selected: colors.isabelline,
       focus: colors.isabelline,
       active: colors.verdiGris,
-
+      hover: colors.isabelline
     },
     common: {
       black: colors.blackOlive,

@@ -4,7 +4,7 @@ interface ILoadingProps {
   isLoading: boolean;
 }
 
-const useStyles = makeStyles<Theme, ILoadingProps>(() =>
+const useStyles = makeStyles<Theme, ILoadingProps>((theme: Theme) =>
   createStyles({
     container: {
       width: '90%',
@@ -17,6 +17,10 @@ const useStyles = makeStyles<Theme, ILoadingProps>(() =>
     },
     title: {
       fontSize: '4rem',
+      color: theme.palette.common.white
+    },
+    header: {
+      background: theme.palette.primary.main
     }
   })
 );

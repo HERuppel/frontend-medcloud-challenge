@@ -10,13 +10,16 @@ const defaultOptions = {
   animationData: loadAnimation,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
-  }
+  },
 };
 
 const LottieLoading = (): JSX.Element => (
-  <LottieView
-    options={defaultOptions}
-  />
+    <LottieView
+      options={defaultOptions}
+      height={'60%'}
+      width={'60%'}
+      style={{ alignSelf: 'center' }}
+    />
 );
 
 export default LottieLoading;

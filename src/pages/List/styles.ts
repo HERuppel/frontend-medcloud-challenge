@@ -1,17 +1,21 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { colors } from '../../global/colors';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() =>
+interface ILoadingProps {
+  isLoading: boolean;
+}
+
+const useStyles = makeStyles<Theme, ILoadingProps>(() =>
   createStyles({
     container: {
       width: '90%',
+      display: ({ isLoading }) => isLoading ? 'flex' : 'block',
+      alignItems: ({ isLoading }) => isLoading ? 'center' : 'none',
     },
     content: {
       display: 'flex',
       justifyContent: 'center'
     },
     title: {
-      fontWeight: 'bold',
       fontSize: '4rem',
     }
   })

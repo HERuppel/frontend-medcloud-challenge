@@ -24,30 +24,18 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
         </Typography>
       </div>
       <List>
-        <NavLink activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/home">
-          <ListItem button key="home">
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-        </NavLink>
-        <NavLink activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/create">
-          <ListItem button key="create">
-            <ListItemIcon>
-              <NoteAdd />
-            </ListItemIcon>
-            <ListItemText primary="Criar" />
-          </ListItem>
-        </NavLink>
-        <NavLink activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/list">
-          <ListItem button key="list">
-            <ListItemIcon>
-              <ListIcon />
-            </ListItemIcon>
-            <ListItemText primary="Lista" />
-          </ListItem>
-        </NavLink>
+        <ListItem key="home" component={NavLink} activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/home">
+            <Home />
+            <ListItemText className={classes.itemText} primary="Home" />
+        </ListItem>
+        <ListItem key="create" component={NavLink} activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/create">
+            <NoteAdd />
+            <ListItemText className={classes.itemText} primary="Criar" />
+        </ListItem>
+        <ListItem key="list" component={NavLink} activeClassName={classes.activeNavLink} className={classes.navLink} to="/main/list">
+          <ListIcon />
+          <ListItemText className={classes.itemText} primary="Lista" />
+        </ListItem>
       </List>
     </div>
   );

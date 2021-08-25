@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: colors.blackOlive,
     },
     activeNavLink: {
-      color: colors.blueSaphire,
+      color: colors.verdiGris,
+    },
+    itemText: {
+      marginLeft: 30
     }
   })
 );

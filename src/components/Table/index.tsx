@@ -70,39 +70,22 @@ const Table = ({ patients }: ITable): JSX.Element => {
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box margin={1}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Detalhes
-                </Typography>
-                <div>
-                  <Typography>{patient.gender}</Typography>
-                  <Typography>{patient.address}</Typography>
-                  <Typography>{patient.city}</Typography>
-                  <Typography>{patient.state}</Typography>
-                  <Typography>{patient.phone}</Typography>
-                </div>
-                {/* <UITable size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow key={patient.birthdate}>
-                      <TableCell component="th" scope="row">
-                        {patient.address}
-                      </TableCell>
-                      <TableCell>{patient.city}</TableCell>
-                      <TableCell align="right">{patient.state}</TableCell>
-                      <TableCell align="right">
-                        {patient.maritalStatus}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </UITable> */}
+              <Box className={classes.box} margin={1}>
+                  <div>
+                    <div className={classes.personal}>
+                      <Typography><span>Nome completo: </span>{patient.firstName} {patient.lastName}</Typography>
+                      <Typography><span>Registro Geral: </span>{patient.rg}</Typography>
+                    </div>
+                    <div className={classes.medical}>
+                      <Typography variant="h6">Informações médicas</Typography>
+                      <Typography><span>Motivo da consulta: </span>{patient.subject}</Typography>
+                    </div>
+                  </div>
+                  <div className={classes.contact}>
+                    <Typography variant="h6">Informações de contato</Typography>
+                    <Typography><span>Telefone: </span>{patient.phone}</Typography>
+                    <Typography><span>Endereço: </span>{patient.address} - {patient.city}, {patient.state}</Typography>
+                  </div>
               </Box>
             </Collapse>
           </TableCell>

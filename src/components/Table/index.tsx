@@ -127,7 +127,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
         </TableHead>
         <TableBody>
           {patients.map((patient) => (
-            <Row key={patient.patientId} patient={patient} />
+            <Row key={patient.creationId} patient={patient} />
           ))}
         </TableBody>
       </UITable>

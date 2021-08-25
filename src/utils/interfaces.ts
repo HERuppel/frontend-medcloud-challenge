@@ -1,5 +1,6 @@
 export interface IPatient {
-  patientId?: string
+  patientId: string
+  creationId: string
   firstName: string
   lastName: string
   birthdate: string

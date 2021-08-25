@@ -11,6 +11,7 @@ import useStyles from './styles';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { IFormPatient } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
+import { phoneMask, rgMask } from '../../utils/functions';
 
 const Form = (): JSX.Element => {
   const classes = useStyles();
@@ -21,7 +22,6 @@ const Form = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
     e?.preventDefault();
-    console.log(data);
     if (!data.firstName) { setError('Insira o nome'); return; }
     if (!data.lastName) { setError('Insira o sobrenome'); return; }
     if (!data.phone) { setError('Insira o telefone'); return; }
@@ -35,8 +35,7 @@ const Form = (): JSX.Element => {
     try {
       setLoading(true);
       (async(): Promise<void> => {
-        //await create(data);
-        console.log('aqui');
+        await create(data);
       })();
     } catch (e) {
       setError('Ocorreu um erro na criação.');
@@ -151,20 +150,31 @@ const Form = (): JSX.Element => {
     </div>
   );
 
+
   const contactData = (
     <div className={classes.sectionContainer}>
       <Typography variant="h2" className={classes.sectionTitle}>Informações adicionais e de contato</Typography>
       <div className={classes.contactFields}>
-        <TextField
-          type="number"
-          id="outlined-basic"
-          label="Telefone"
-          variant="outlined"
-          size="small"
-          error={error === 'Insira o telefone'}
-          helperText={error === 'Insira o telefone' && error}
-          className={classes.input}
-          {...register('phone')}
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              type="text"
+              id="outlined-basic"
+              label="Telefone"
+              variant="outlined"
+              size="small"
+              inputProps={{
+                maxLength: 15 //11 number + spaces and special characters
+              }}
+              error={error === 'Insira o telefone'}
+              helperText={error === 'Insira o telefone' ? error : 'Somente números'}
+              value={value ? phoneMask(value) : ''}
+              onChange={onChange}
+              className={classes.input}
+            />
+          )}
         />
         <TextField
           type="text"
@@ -179,21 +189,28 @@ const Form = (): JSX.Element => {
           }}
           className={classes.input}
           {...register('address')}
-          />
-        <TextField
-          type="number"
-          id="outlined-basic"
-          label="RG"
-          variant="outlined"
-          size="small"
-          error={error === 'Insira o RG'}
-          helperText={error === 'Insira o RG' && error}
-          InputProps={{
-            autoComplete: 'off'
-          }}
-          className={classes.input}
-          {...register('rg')}
         />
+          <Controller
+            name="rg"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                type="text"
+                id="outlined-basic"
+                label="RG"
+                variant="outlined"
+                size="small"
+                error={error === 'Insira o RG'}
+                helperText={error === 'Insira o RG' ? error : 'Somente números'}
+                inputProps={{
+                  maxLength: 12
+                }}
+                value={value ? rgMask(value) : ''}
+                onChange={onChange}
+                className={classes.input}
+              />
+            )}
+          />
         <TextField
           type="text"
           id="outlined-basic"
@@ -259,11 +276,11 @@ const Form = (): JSX.Element => {
           className={classes.textarea}
           {...register('subject')}
         />
-        <div className={classes.chipContainer}>
+        {/* <div className={classes.chipContainer}>
           {new Array(10).fill(0).map((item, index) => (
             <Chip variant="outlined" key={index} label={item + index} color="secondary" onDelete={() => console.log('delete')} />
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

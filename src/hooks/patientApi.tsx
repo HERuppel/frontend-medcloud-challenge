@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { api } from '../services/api';
+import { rgMask } from '../utils/functions';
 
 import { IFormPatient, IPatient } from '../utils/interfaces';
 
@@ -19,14 +20,21 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
   const [patientList, setPatientList] = useState<IPatient[]>([]);
 
   const create = async(patient: IFormPatient): Promise<void> => {
-    const treatedPatient: IFormPatient = { ...patient, gender: Number(patient.gender), maritalStatus: Number(patient.maritalStatus) };
-    const response = await api.post('createPatient', { ...treatedPatient });
+    const treatedPatient: IFormPatient = {
+      ...patient,
+      gender: Number(patient.gender),
+      maritalStatus: Number(patient.maritalStatus),
+      birthdate: `${Date.parse(patient.birthdate)}`,
+      rg: rgMask(patient.rg)
+    };
 
-    const newPatient = { ...response.data };
-    const newList = { ...patientList };
-    newList.push(newPatient);
+    await api.post('createPatient', { ...treatedPatient });
 
-    setPatientList(newList);
+    // const newPatient = { ...response.data };
+    // const newList = { ...patientList };
+    // newList.push(newPatient);
+
+    // setPatientList(newList);
   };
 
   const list = async(): Promise<void> => {

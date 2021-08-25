@@ -16,7 +16,7 @@ import { phoneMask, rgMask } from '../../utils/functions';
 const Form = (): JSX.Element => {
   const classes = useStyles();
   const { create } = useApi();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
   const { register, handleSubmit, control } = useForm<IFormPatient>();
 
@@ -34,9 +34,7 @@ const Form = (): JSX.Element => {
 
     try {
       setLoading(true);
-      (async(): Promise<void> => {
-        await create(data);
-      })();
+      await create(data);
     } catch (e) {
       setError('Ocorreu um erro na criação.');
     } finally {
@@ -276,11 +274,6 @@ const Form = (): JSX.Element => {
           className={classes.textarea}
           {...register('subject')}
         />
-        {/* <div className={classes.chipContainer}>
-          {new Array(10).fill(0).map((item, index) => (
-            <Chip variant="outlined" key={index} label={item + index} color="secondary" onDelete={() => console.log('delete')} />
-          ))}
-        </div> */}
       </div>
     </div>
   );
@@ -296,7 +289,7 @@ const Form = (): JSX.Element => {
           className={classes.button}
           color="primary"
           variant="contained"
-          startIcon={loading ? <Loading loadingSize={10} /> : <Check />}
+          startIcon={loading ? <Loading loadingSize={20} /> : <Check />}
         >
             Salvar
         </Button>

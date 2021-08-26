@@ -29,9 +29,9 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
       creationId: 0,
       patientId: 0,
     },
-    pageNumber: 0
+    pageNumber: 1
   } as IPages);
-  const offset = 3;
+  const offset = 10;
 
   const createPatient = async(patient: IFormPatient): Promise<void> => {
     const treatedPatient: IFormPatient = {
@@ -62,7 +62,7 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
 
     const newPage: IPages = {
       lastEvaluatedKey: response.data?.LastEvaluatedKey ?? 0,
-      pageNumber: 0
+      pageNumber: 1
     };
 
     const patients: IPatientList[] = [
@@ -70,12 +70,22 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
       { page: newPage, values: response.data?.Items }
     ];
 
-    setCurrentPage(newPage);
     setPatientList(patients);
   };
 
   const deletePatient = async(patient: IPatient): Promise<void> => {
-      await api.delete(`deletePatient/${patient.patientId}`);
+      //await api.delete(`deletePatient/${patient.creationId}`);
+
+      const isLastPage = patientList.filter((item: IPatientList) =>
+        item.page.lastEvaluatedKey.creationId === currentPage.lastEvaluatedKey.creationId ? item : null
+      );
+
+      console.log(isLastPage);
+
+      // if (isLastPage[0]?.values?.length === 1) {
+      //     setCurrentPage(patientList[]);
+      //     return;
+      // }
   };
 
   return (

@@ -4,7 +4,7 @@ import { TextField, Button, InputLabel, RadioGroup, FormControl, FormControlLabe
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { Check } from '@material-ui/icons';
+import { Check, FormatColorResetOutlined } from '@material-ui/icons';
 import { Loading } from '../../global/common/commonStyles';
 import useStyles from './styles';
 
@@ -16,7 +16,7 @@ import { phoneMask, rgMask } from '../../utils/functions';
 const Form = (): JSX.Element => {
   const classes = useStyles();
   const { createPatient } = useApi();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const { register, handleSubmit, control } = useForm<IFormPatient>();
 
@@ -259,23 +259,20 @@ const Form = (): JSX.Element => {
     <div className={classes.sectionContainer}>
       <Typography variant="h2" className={classes.sectionTitle}>Informações sobre a consulta</Typography>
       <div className={classes.medicalFiels}>
-        <div className={classes.subjectField}>
-          <TextField
-            type="text"
-            id="outlined-basic"
-            label="Assunto da consulta"
-            variant="outlined"
-            size="small"
-            error={error === 'Insira o assunto da consulta'}
-            helperText={error === 'Insira o assunto da consulta' && error}
-            InputProps={{
-              autoComplete: 'off'
-            }}
-            className={classes.input}
-            {...register('subject')}
-          />
-          <div />
-        </div>
+        <TextField
+          type="text"
+          id="outlined-basic"
+          label="Assunto da consulta"
+          variant="outlined"
+          size="small"
+          error={error === 'Insira o assunto da consulta'}
+          helperText={error === 'Insira o assunto da consulta' && error}
+          InputProps={{
+            autoComplete: 'off'
+          }}
+          className={classes.subInput}
+          {...register('subject')}
+        />
         <TextField
           type="text"
           id="outlined-basic"

@@ -25,7 +25,7 @@ const List: React.FC = () => {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [currentPage]);
 
 
   return (

@@ -64,11 +64,14 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 20
     },
     medicalFiels: {
-      paddingTop: 20,
       display: 'grid',
       gridTemplateRows: '1fr 1fr',
       gridTemplateColumns: '1fr',
       placeItems: 'center'
+    },
+    subInput: {
+      width: '90%',
+      height: 30,
     },
     subjectField: {
       width: '90%',

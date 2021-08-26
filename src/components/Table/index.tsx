@@ -3,7 +3,7 @@ import useStyles from './styles';
 import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box, MenuItem, Menu, TablePagination } from '@material-ui/core';
 import { KeyboardArrowUp, KeyboardArrowDown, MoreHoriz } from '@material-ui/icons';
 
-import { IPatient, IPatientList } from '../../utils/interfaces';
+import { IPages, IPatient, IPatientList } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
 
 interface ITable {
@@ -16,7 +16,7 @@ interface IRow {
 
 const Table = ({ patients }: ITable): JSX.Element => {
   const classes = useStyles();
-  const { currentPage } = useApi();
+  const { currentPage, deletePatient, setCurrentPage } = useApi();
 
   const Row = ({ patient }: IRow): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
@@ -29,6 +29,14 @@ const Table = ({ patients }: ITable): JSX.Element => {
 
     const handleClose = () => {
       setAnchorEl(null);
+    };
+
+    const handleDelete = async (patient: IPatient): Promise<void> => {
+      try {
+        await deletePatient(patient);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     const calculateAge = (timestamp: number) => {
@@ -65,7 +73,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
               onClose={handleClose}
             >
               <MenuItem onClick={handleClose}>Editar</MenuItem>
-              <MenuItem onClick={handleClose}>Excluir</MenuItem>
+              <MenuItem onClick={() => handleDelete(patient)}>Excluir</MenuItem>
             </Menu>
           </TableCell>
         </TableRow>
@@ -114,7 +122,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
         </TableHead>
         <TableBody>
           {patients.filter((chunk: IPatientList) => (
-            chunk.page.lastEvaluatedKey.creationId === currentPage.lastEvaluatedKey.creationId ? chunk : null
+            chunk.page.pageNumber === currentPage.pageNumber ? chunk : null
             ))[0]?.values.map((patient: IPatient) => (
               <Row key={patient.creationId} patient={patient} />
             ))
@@ -124,10 +132,11 @@ const Table = ({ patients }: ITable): JSX.Element => {
       {/* <TablePagination
         component="div"
         count={100}
-        page={1}
-        onPageChange={() => console.log('MUDEI')}
+        page={currentPage.pageNumber}
+        onPageChange={() => setCurrentPage({ ...currentPage, })}
         labelRowsPerPage=''
-        rowsPerPage={[] as number[]}
+        rowsPerPage={3}
+
       /> */}
     </TableContainer>
   );

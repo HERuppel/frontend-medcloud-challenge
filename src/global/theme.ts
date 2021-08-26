@@ -1,13 +1,12 @@
 import { createTheme } from '@material-ui/core/styles';
-import { colors } from './colors';
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: colors.verdiGris,
+      main: '#009adf',
     },
     secondary: {
-      main: colors.verdiGris
+      main: '#002639'
     },
     error: {
       main: '#bb2727'
@@ -22,14 +21,14 @@ export const theme = createTheme({
       main: '#2165e4'
     },
     action: {
-      selected: colors.isabelline,
-      focus: colors.isabelline,
-      active: colors.verdiGris,
-      hover: colors.isabelline
+      selected: '#EEE5E5',
+      focus: '#EEE5E5',
+      active: '#009adf',
+      hover: '#EEE5E5'
     },
     common: {
-      black: colors.blackOlive,
-      white: colors.white
+      black: '#37392E',
+      white: '#FFF'
     },
   },
   typography: {

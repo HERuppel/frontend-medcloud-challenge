@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { api } from '../services/api';
-import { rgMask } from '../utils/functions';
+import { rgMask, treatPatient } from '../utils/functions';
 
 import { IFormPatient, IPages, IPatient, IPatientList } from '../utils/interfaces';
 
@@ -9,6 +9,7 @@ interface IContextData {
   patientList: IPatientList[];
   createPatient: (patient: IFormPatient) => Promise<void>;
   listPatients: () => Promise<void>;
+  updatePatient: (patient: IFormPatient) => Promise<void>;
   deletePatient: (patient: IPatient) => Promise<void>;
 
   currentPage: IPages;
@@ -22,6 +23,7 @@ interface IProviderChildren {
   children: React.ReactNode;
 }
 
+
 export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IProviderChildren) => {
   const [patientList, setPatientList] = useState<IPatientList[]>([]);
   const [currentPage, setCurrentPage] = useState<IPages>({
@@ -33,22 +35,20 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
   } as IPages);
   const offset = 10;
 
+
+
   const createPatient = async(patient: IFormPatient): Promise<void> => {
-    const treatedPatient: IFormPatient = {
-      ...patient,
-      gender: Number(patient.gender),           // IMPORTANT, NEED TO DO THIS FOR UPDATE
-      maritalStatus: Number(patient.maritalStatus),
-      birthdate: `${Date.parse(patient.birthdate)}`,
-      rg: rgMask(patient.rg)
-    };
+    const treatedPatient = treatPatient(patient);
 
-    await api.post('createPatient', { ...treatedPatient });
+    const res = await api.post('createPatient', { ...treatedPatient });
 
-    // const newPatient = { ...response.data };
-    // const newList = { ...patientList };
-    // newList.push(newPatient);
+    const newPatientList: IPatientList[] = [...patientList];
 
-    // setPatientList(newList);
+    console.log(res.data);
+
+    newPatientList[0].values.unshift(res.data); // INDEX AT 0 WITHOUT PROPER PAGINATION
+
+    setPatientList(newPatientList);
   };
 
   const listPatients = async(): Promise<void> => {
@@ -59,6 +59,8 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
     if (exists.length !== 0) return;
 
     const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
+
+    console.log(response);
 
     const newPage: IPages = {
       lastEvaluatedKey: response.data?.LastEvaluatedKey ?? 0,
@@ -73,19 +75,30 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
     setPatientList(patients);
   };
 
+  const updatePatient = async(patient: IFormPatient): Promise<void> => {
+    const treatedPatient = treatPatient(patient);
+
+    await api.put('updatePatient', { ...treatedPatient });
+
+    const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
+
+    const patients: IPatientList[] = [
+      {page: currentPage, values: response.data?.Items }
+    ];
+
+    setPatientList(patients);
+  };
+
   const deletePatient = async(patient: IPatient): Promise<void> => {
-      //await api.delete(`deletePatient/${patient.creationId}`);
+      await api.delete(`deletePatient/${patient.creationId}`);
 
-      const isLastPage = patientList.filter((item: IPatientList) =>
-        item.page.lastEvaluatedKey.creationId === currentPage.lastEvaluatedKey.creationId ? item : null
-      );
+      const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
 
-      console.log(isLastPage);
+      const patients: IPatientList[] = [
+        {page: currentPage, values: response.data?.Items }
+      ];
 
-      // if (isLastPage[0]?.values?.length === 1) {
-      //     setCurrentPage(patientList[]);
-      //     return;
-      // }
+      setPatientList(patients);
   };
 
   return (
@@ -93,6 +106,7 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
       value={{
         createPatient,
         listPatients,
+        updatePatient,
         deletePatient,
         patientList,
         currentPage,

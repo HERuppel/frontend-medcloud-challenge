@@ -1,3 +1,4 @@
+import { IFormPatient, IPatient } from './interfaces';
 
 export  const rgMask = (value: string): string => {
     let r = value.replace(/\D/g,'');
@@ -20,3 +21,16 @@ export  const phoneMask = (value: string): string => {
     }
     return r;
   };
+
+
+export const treatPatient = (patient: IPatient | IFormPatient): IFormPatient => {
+  const treatedPatient: IFormPatient = {
+    ...patient,
+    gender: Number(patient.gender),           // IMPORTANT, NEED TO DO THIS FOR UPDATE
+    maritalStatus: Number(patient.maritalStatus),
+    birthdate: `${Date.parse(patient.birthdate)}`,
+    rg: rgMask(patient.rg)
+  };
+
+  return treatedPatient;
+};

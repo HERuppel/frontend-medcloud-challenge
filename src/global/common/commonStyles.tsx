@@ -1,12 +1,11 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { colors } from '../colors';
 
 interface ILoading {
   loadingSize: number
 }
 
-const commonStyles = makeStyles<Theme, ILoading>(() =>
+const commonStyles = makeStyles<Theme, ILoading>((theme: Theme) =>
   createStyles({
     '@keyframes loadingAnimation': {
       '100%': {
@@ -17,8 +16,8 @@ const commonStyles = makeStyles<Theme, ILoading>(() =>
       width: ({ loadingSize }) => loadingSize,
       height: ({ loadingSize }) => loadingSize,
       borderRadius: '50%',
-      border: `4px solid ${colors.blueSaphire}`,
-      borderTopColor: colors.white,
+      border: `4px solid ${theme.palette.primary.main}`,
+      borderTopColor: theme.palette.common.white,
       animation: '$loadingAnimation 1s infinite'
     }
   })

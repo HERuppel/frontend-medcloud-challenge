@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { colors } from '../../global/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'bold',
       fontSize: '3rem',
       textAlign: 'center',
-      color: colors.verdiGris
+      color: theme.palette.primary.main
     },
     form: {
       width: '100%',

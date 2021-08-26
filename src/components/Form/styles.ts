@@ -1,5 +1,4 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core';
-import { colors } from '../../global/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,11 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       top: 0,
       left: '5%',
-      color: colors.verdiGris,
       paddingTop: 10
     },
     sectionContainer: {
-      backgroundColor: colors.isabelline,
+      backgroundColor: theme.palette.action.selected,
       borderRadius: 5,
       display: 'flex',
       flexDirection: 'column',
@@ -89,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '50%',
       margin: '20px',
       alignSelf: 'center',
-      color: colors.white
+      color: theme.palette.common.white
     },
     '@media (max-width: 1000px)': {
       input: { width: '90%' },

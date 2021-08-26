@@ -3,8 +3,13 @@ import useStyles from './styles';
 import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box, MenuItem, Menu, TablePagination } from '@material-ui/core';
 import { KeyboardArrowUp, KeyboardArrowDown, MoreHoriz } from '@material-ui/icons';
 
-import { IPages, IPatient, IPatientList } from '../../utils/interfaces';
+import { IPages, IPatient, IPatientList, IFormPatient } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
+import LottieLoading from '../LottieLoading';
+import { Loading } from '../../global/common/commonStyles';
+import { NavLink } from 'react-router-dom';
+import { genders, maritalStatuses } from '../../utils/enums';
+
 
 interface ITable {
   patients: IPatientList[];
@@ -17,10 +22,11 @@ interface IRow {
 const Table = ({ patients }: ITable): JSX.Element => {
   const classes = useStyles();
   const { currentPage, deletePatient, setCurrentPage } = useApi();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formOpen, setFormOpen] = useState<boolean>(false);
 
   const Row = ({ patient }: IRow): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
-    const [editOrDelete, setEditOrDelete] = useState<number>();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,11 +37,19 @@ const Table = ({ patients }: ITable): JSX.Element => {
       setAnchorEl(null);
     };
 
+    const handleEdit = (patient: IPatient) => {
+      console.log(patient);
+    };
+
     const handleDelete = async (patient: IPatient): Promise<void> => {
+      console.log('delte');
       try {
+        setLoading(true);
         await deletePatient(patient);
       } catch (e) {
         console.log(e);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -48,6 +62,19 @@ const Table = ({ patients }: ITable): JSX.Element => {
     };
 
     const formatBirthdate = (timestamp: number): string => new Date(timestamp).toLocaleDateString('pt-BR');
+
+    const patientToForm = (patient: IPatient): IFormPatient => {
+      const patientToEdit: IFormPatient = {
+        ...patient,
+        gender: Number(genders[patient.gender as keyof typeof genders]),
+        maritalStatus: maritalStatuses[patient.maritalStatus  as keyof typeof maritalStatuses],
+        birthdate: new Date(Number(patient.birthdate)).toString()
+      };
+
+      console.log(patientToEdit);
+
+      return patientToEdit;
+    };
 
     return (
       <>
@@ -72,7 +99,12 @@ const Table = ({ patients }: ITable): JSX.Element => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Editar</MenuItem>
+              <MenuItem component={NavLink} to={{
+                  pathname: '/main/create',
+                  state: {
+                    patientToEdit: patientToForm(patient)
+                  }
+                }}>Editar</MenuItem>
               <MenuItem onClick={() => handleDelete(patient)}>Excluir</MenuItem>
             </Menu>
           </TableCell>
@@ -97,6 +129,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
                   <div className={classes.medical}>
                     <Typography variant="h6">Informações médicas</Typography>
                     <Typography><span>Motivo da consulta: </span>{patient.subject}</Typography>
+                    <Typography><span>Notas: </span>{patient.notes ?? 'Não possui'}</Typography>
                   </div>
               </Box>
             </Collapse>
@@ -109,26 +142,30 @@ const Table = ({ patients }: ITable): JSX.Element => {
 
   return (
     <TableContainer component={Paper} className={classes.container}>
-      <UITable aria-label="collapsible table">
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Nome</TableCell>
-            <TableCell align="left">Sobrenome</TableCell>
-            <TableCell align="left">Idade</TableCell>
-            <TableCell align="left">Sexo</TableCell>
-            <TableCell align="center">Ações</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {patients.filter((chunk: IPatientList) => (
-            chunk.page.pageNumber === currentPage.pageNumber ? chunk : null
-            ))[0]?.values.map((patient: IPatient) => (
-              <Row key={patient.creationId} patient={patient} />
-            ))
-          }
-        </TableBody>
-      </UITable>
+      {
+        loading
+          ? <LottieLoading dots />
+          : <UITable aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Nome</TableCell>
+                  <TableCell align="left">Sobrenome</TableCell>
+                  <TableCell align="left">Idade</TableCell>
+                  <TableCell align="left">Sexo</TableCell>
+                  <TableCell align="center">Ações</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {patients.filter((chunk: IPatientList) => (
+                  chunk.page.pageNumber === currentPage.pageNumber ? chunk : null
+                  ))[0]?.values.map((patient: IPatient) => (
+                    <Row key={patient.creationId} patient={patient} />
+                  ))
+                }
+              </TableBody>
+            </UITable>
+      }
       {/* <TablePagination
         component="div"
         count={100}
@@ -138,6 +175,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
         rowsPerPage={3}
 
       /> */}
+
     </TableContainer>
   );
 };

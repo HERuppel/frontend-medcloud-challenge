@@ -1,24 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, InputLabel, RadioGroup, FormControl, FormControlLabel, FormLabel, Radio, Select, MenuItem, Typography, Chip } from '@material-ui/core';
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-import { Check, FormatColorResetOutlined } from '@material-ui/icons';
+import { Check } from '@material-ui/icons';
 import { Loading } from '../../global/common/commonStyles';
 import useStyles from './styles';
 
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { IFormPatient } from '../../utils/interfaces';
+import { IFormPatient, IPatient } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
 import { phoneMask, rgMask } from '../../utils/functions';
+import { useLocation } from 'react-router-dom';
+
+interface IPatientToEdit {
+  state: {
+    patientToEdit?: IFormPatient
+  }
+}
 
 const Form = (): JSX.Element => {
   const classes = useStyles();
-  const { createPatient } = useApi();
+  const { state } = useLocation() as IPatientToEdit;
+  const { createPatient, updatePatient } = useApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const { register, handleSubmit, control } = useForm<IFormPatient>();
+  const { register, handleSubmit, control } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
+  const editMode = state ? true : false;
 
   const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
     e?.preventDefault();
@@ -34,7 +43,9 @@ const Form = (): JSX.Element => {
 
     try {
       setLoading(true);
-      await createPatient(data);
+      editMode
+        ? await updatePatient(data)
+        : await createPatient(data);
     } catch (e) {
       setError('Ocorreu um erro na criação.');
     } finally {
@@ -82,7 +93,7 @@ const Form = (): JSX.Element => {
               <RadioGroup
                 aria-label="gender"
                 defaultValue={'1'}
-                value={value ? value : '1'}
+                value={value ? `${value}` : '1'}
                 onChange={onChange}
                 name="radio-buttons-group"
               >
@@ -164,7 +175,7 @@ const Form = (): JSX.Element => {
               variant="outlined"
               size="small"
               inputProps={{
-                maxLength: 15 //11 number + spaces and special characters
+                maxLength: 15 //11 numbers + special characters
               }}
               error={error === 'Insira o telefone'}
               helperText={error === 'Insira o telefone' ? error : 'Somente números'}

@@ -15,7 +15,7 @@ import { phoneMask, rgMask } from '../../utils/functions';
 
 const Form = (): JSX.Element => {
   const classes = useStyles();
-  const { create } = useApi();
+  const { createPatient } = useApi();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>();
   const { register, handleSubmit, control } = useForm<IFormPatient>();
@@ -34,7 +34,7 @@ const Form = (): JSX.Element => {
 
     try {
       setLoading(true);
-      await create(data);
+      await createPatient(data);
     } catch (e) {
       setError('Ocorreu um erro na criação.');
     } finally {
@@ -259,20 +259,35 @@ const Form = (): JSX.Element => {
     <div className={classes.sectionContainer}>
       <Typography variant="h2" className={classes.sectionTitle}>Informações sobre a consulta</Typography>
       <div className={classes.medicalFiels}>
+        <div className={classes.subjectField}>
+          <TextField
+            type="text"
+            id="outlined-basic"
+            label="Assunto da consulta"
+            variant="outlined"
+            size="small"
+            error={error === 'Insira o assunto da consulta'}
+            helperText={error === 'Insira o assunto da consulta' && error}
+            InputProps={{
+              autoComplete: 'off'
+            }}
+            className={classes.input}
+            {...register('subject')}
+          />
+          <div />
+        </div>
         <TextField
           type="text"
           id="outlined-basic"
-          label="Assunto da consulta"
+          label="Notas adicionais (opcional)"
           variant="outlined"
           multiline
           minRows={5}
-          error={error === 'Insira o assunto da consulta'}
-          helperText={error === 'Insira o assunto da consulta' && error}
           InputProps={{
             autoComplete: 'off'
           }}
           className={classes.textarea}
-          {...register('subject')}
+          {...register('notes')}
         />
       </div>
     </div>

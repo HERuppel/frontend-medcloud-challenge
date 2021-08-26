@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.action.hover
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white
     },
     navLink: {
       textDecoration: 'none',

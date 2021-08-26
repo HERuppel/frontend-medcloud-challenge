@@ -2,12 +2,18 @@ import React, { createContext, useState, useContext } from 'react';
 import { api } from '../services/api';
 import { rgMask } from '../utils/functions';
 
-import { IFormPatient, IPatient } from '../utils/interfaces';
+import { IFormPatient, IPages, IPatient, IPatientList } from '../utils/interfaces';
+
 
 interface IContextData {
-  patientList: IPatient[];
-  create: (patient: IFormPatient) => Promise<void>;
-  list: () => Promise<void>;
+  patientList: IPatientList[];
+  createPatient: (patient: IFormPatient) => Promise<void>;
+  listPatients: () => Promise<void>;
+  deletePatient: (patient: IPatient) => Promise<void>;
+
+  currentPage: IPages;
+  setCurrentPage: (page: IPages) => void;
+
 }
 
 const PatientApiContext = createContext<IContextData>({} as IContextData);
@@ -17,12 +23,20 @@ interface IProviderChildren {
 }
 
 export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IProviderChildren) => {
-  const [patientList, setPatientList] = useState<IPatient[]>([]);
+  const [patientList, setPatientList] = useState<IPatientList[]>([]);
+  const [currentPage, setCurrentPage] = useState<IPages>({
+    lastEvaluatedKey: {
+      creationId: 0,
+      patientId: 0,
+    },
+    pageNumber: 0
+  } as IPages);
+  const offset = 3;
 
-  const create = async(patient: IFormPatient): Promise<void> => {
+  const createPatient = async(patient: IFormPatient): Promise<void> => {
     const treatedPatient: IFormPatient = {
       ...patient,
-      gender: Number(patient.gender),
+      gender: Number(patient.gender),           // IMPORTANT, NEED TO DO THIS FOR UPDATE
       maritalStatus: Number(patient.maritalStatus),
       birthdate: `${Date.parse(patient.birthdate)}`,
       rg: rgMask(patient.rg)
@@ -37,20 +51,42 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
     // setPatientList(newList);
   };
 
-  const list = async(): Promise<void> => {
-    const response = await api.get('listPatients?offset=10&lastItemReceived=0');
+  const listPatients = async(): Promise<void> => {
+    const exists = patientList.filter((chunk: IPatientList) => (
+      chunk.page.lastEvaluatedKey === currentPage.lastEvaluatedKey ? chunk : null
+    )); // PREVENT RELOADING A PAGE
 
-    console.log('NEW', response.data?.Items);
+    if (exists.length !== 0) return;
 
-    setPatientList(response.data?.Items);
+    const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
+
+    const newPage: IPages = {
+      lastEvaluatedKey: response.data?.LastEvaluatedKey ?? 0,
+      pageNumber: 0
+    };
+
+    const patients: IPatientList[] = [
+      ...patientList,
+      { page: newPage, values: response.data?.Items }
+    ];
+
+    setCurrentPage(newPage);
+    setPatientList(patients);
+  };
+
+  const deletePatient = async(patient: IPatient): Promise<void> => {
+      await api.delete(`deletePatient/${patient.patientId}`);
   };
 
   return (
     <PatientApiContext.Provider
       value={{
-        create,
-        list,
-        patientList
+        createPatient,
+        listPatients,
+        deletePatient,
+        patientList,
+        currentPage,
+        setCurrentPage
       }}
     >
       {children}

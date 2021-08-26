@@ -13,6 +13,7 @@ export interface IPatient {
   phone: string
   occupation: string
   subject: string
+  notes?: string
 }
 
 export interface IFormPatient {
@@ -28,4 +29,19 @@ export interface IFormPatient {
   phone: string
   occupation: string
   subject: string
+  notes?: string
+}
+
+export interface IPages {
+  pageNumber: number;
+  lastEvaluatedKey: {
+    patientId: string | number;
+    creationId: string | number;
+  }
+}
+
+
+export interface IPatientList {
+  values: IPatient[];
+  page: IPages;
 }

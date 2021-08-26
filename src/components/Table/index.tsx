@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import useStyles from './styles';
-import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box, MenuItem, Menu } from '@material-ui/core';
+import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box, MenuItem, Menu, TablePagination } from '@material-ui/core';
 import { KeyboardArrowUp, KeyboardArrowDown, MoreHoriz } from '@material-ui/icons';
 
-import { IPatient } from '../../utils/interfaces';
+import { IPatient, IPatientList } from '../../utils/interfaces';
+import { useApi } from '../../hooks/patientApi';
 
 interface ITable {
-  patients: IPatient[];
+  patients: IPatientList[];
 }
 
 interface IRow {
@@ -15,7 +16,7 @@ interface IRow {
 
 const Table = ({ patients }: ITable): JSX.Element => {
   const classes = useStyles();
-
+  const { currentPage } = useApi();
 
   const Row = ({ patient }: IRow): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
@@ -39,7 +40,6 @@ const Table = ({ patients }: ITable): JSX.Element => {
     };
 
     const formatBirthdate = (timestamp: number): string => new Date(timestamp).toLocaleDateString('pt-BR');
-
 
     return (
       <>
@@ -113,11 +113,22 @@ const Table = ({ patients }: ITable): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {patients.map((patient) => (
-            <Row key={patient.creationId} patient={patient} />
-          ))}
+          {patients.filter((chunk: IPatientList) => (
+            chunk.page.lastEvaluatedKey.creationId === currentPage.lastEvaluatedKey.creationId ? chunk : null
+            ))[0]?.values.map((patient: IPatient) => (
+              <Row key={patient.creationId} patient={patient} />
+            ))
+          }
         </TableBody>
       </UITable>
+      {/* <TablePagination
+        component="div"
+        count={100}
+        page={1}
+        onPageChange={() => console.log('MUDEI')}
+        labelRowsPerPage=''
+        rowsPerPage={[] as number[]}
+      /> */}
     </TableContainer>
   );
 };

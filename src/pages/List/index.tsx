@@ -10,15 +10,15 @@ import LottieLoading from '../../components/LottieLoading';
 const List: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const classes = useStyles({ isLoading: loading });
-  const { list, patientList } = useApi();
+  const { listPatients, patientList, currentPage } = useApi();
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
     (async (): Promise<void> => {
       try {
-        await list();
-        console.log('entrei');
+        await listPatients();
+
       } catch (e) {
         setError('Erro ao carregar a lista.');
       } finally {

@@ -66,7 +66,14 @@ const useStyles = makeStyles((theme: Theme) =>
     medicalFiels: {
       paddingTop: 20,
       display: 'grid',
-      gridTemplateRows: '1fr',
+      gridTemplateRows: '1fr 1fr',
+      gridTemplateColumns: '1fr',
+      placeItems: 'center'
+    },
+    subjectField: {
+      width: '90%',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
       placeItems: 'center'
     },
     chipContainer: {

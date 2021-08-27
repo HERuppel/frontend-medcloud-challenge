@@ -44,10 +44,8 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
 
     const newPatientList: IPatientList[] = [...patientList];
 
-
     newPatientList[0].values.unshift(res.data); // INDEX AT 0 WITHOUT PROPER PAGINATION
 
-    console.log('HIER', newPatientList);
     setPatientList(newPatientList);
   };
 

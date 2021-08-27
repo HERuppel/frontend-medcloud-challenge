@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import useStyles from './styles';
 import { Typography, TableRow, TableCell, Collapse, IconButton, TableContainer, Paper, Table as UITable, TableHead, TableBody, Box, MenuItem, Menu, TablePagination } from '@material-ui/core';
-import { KeyboardArrowUp, KeyboardArrowDown, MoreHoriz } from '@material-ui/icons';
+import { KeyboardArrowUp, KeyboardArrowDown, MoreHoriz, LocalHospitalOutlined, PermContactCalendarOutlined, ContactPhoneOutlined } from '@material-ui/icons';
 
-import { IPages, IPatient, IPatientList, IFormPatient } from '../../utils/interfaces';
+import { IPatient, IPatientList, IFormPatient } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
 import LottieLoading from '../LottieLoading';
-import { Loading } from '../../global/common/commonStyles';
 import { NavLink } from 'react-router-dom';
 import { genders, maritalStatuses } from '../../utils/enums';
+
+import Swal from 'sweetalert2';
+import { theme } from '../../global/theme';
 
 
 interface ITable {
@@ -21,9 +23,8 @@ interface IRow {
 
 const Table = ({ patients }: ITable): JSX.Element => {
   const classes = useStyles();
-  const { currentPage, deletePatient, setCurrentPage } = useApi();
+  const { currentPage, deletePatient } = useApi();
   const [loading, setLoading] = useState<boolean>(false);
-  const [formOpen, setFormOpen] = useState<boolean>(false);
 
   const Row = ({ patient }: IRow): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
@@ -37,8 +38,31 @@ const Table = ({ patients }: ITable): JSX.Element => {
       setAnchorEl(null);
     };
 
-    const handleEdit = (patient: IPatient) => {
-      console.log(patient);
+    const areYouSure = (patient: IPatient) => {
+      Swal.fire({
+        title: 'Tem certeza que deseja deletar?',
+        text: 'Isso não poderá ser desfeito!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: theme.palette.primary.main,
+        cancelButtonColor: theme.palette.error.main,
+        confirmButtonText: 'Deletar',
+        customClass: {
+          container: classes.swal
+        }
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await handleDelete(patient);
+          Swal.fire({
+            title: 'Registro de paciente deletado!',
+            icon: 'success',
+            confirmButtonColor: theme.palette.primary.main,
+            customClass: {
+              container: classes.swal
+            }
+          });
+        }
+      });
     };
 
     const handleDelete = async (patient: IPatient): Promise<void> => {
@@ -105,7 +129,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
                     patientToEdit: patientToForm(patient)
                   }
                 }}>Editar</MenuItem>
-              <MenuItem onClick={() => handleDelete(patient)}>Excluir</MenuItem>
+              <MenuItem onClick={() => areYouSure(patient)}>Excluir</MenuItem>
             </Menu>
           </TableCell>
         </TableRow>
@@ -114,20 +138,29 @@ const Table = ({ patients }: ITable): JSX.Element => {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box className={classes.box} margin={1}>
                   <div className={classes.personal}>
-                    <Typography variant="h6">Informações Pessoais</Typography>
+                    <div className={classes.tIcons}>
+                      <Typography color="textPrimary" variant="h6">Informações Pessoais</Typography>
+                      <PermContactCalendarOutlined />
+                    </div>
                     <Typography><span>Nome completo: </span>{patient.firstName} {patient.lastName}</Typography>
                     <Typography><span>Registro Geral: </span>{patient.rg}</Typography>
                     <Typography><span>Data de nascimento: </span>{formatBirthdate(Number(patient.birthdate))}</Typography>
                     <Typography><span>Estado civil: </span>{patient.maritalStatus}</Typography>
                   </div>
                   <div className={classes.contact}>
-                    <Typography variant="h6">Informações de contato</Typography>
+                    <div className={classes.tIcons}>
+                      <Typography color="textPrimary" variant="h6">Informações de contato</Typography>
+                      <ContactPhoneOutlined />
+                    </div>
                     <Typography><span>Telefone: </span>{patient.phone}</Typography>
                     <Typography><span>Endereço: </span>{patient.address} - {patient.city}, {patient.state}</Typography>
                     <Typography><span>Ocupação: </span>{patient.occupation}</Typography>
                   </div>
                   <div className={classes.medical}>
-                    <Typography variant="h6">Informações médicas</Typography>
+                    <div className={classes.tIcons}>
+                      <Typography color="textPrimary" variant="h6">Informações médicas</Typography>
+                      <LocalHospitalOutlined />
+                    </div>
                     <Typography><span>Motivo da consulta: </span>{patient.subject}</Typography>
                     <Typography><span>Notas: </span>{patient.notes ?? 'Não possui'}</Typography>
                   </div>

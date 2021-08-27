@@ -9,9 +9,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       width: '100%',
+      minHeight: '80vh'
     },
     title: {
       fontWeight: 'bold',
+    },
+    tIcons: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      color: theme.palette.primary.main,
     },
     box: {
       display: 'grid',
@@ -31,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     medical: {
       paddingBottom: theme.spacing(5)
+    },
+    swal: {
+      zIndex: 10000
     }
   })
 );

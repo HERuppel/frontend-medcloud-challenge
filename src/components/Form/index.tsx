@@ -8,11 +8,14 @@ import { Check } from '@material-ui/icons';
 import { Loading } from '../../global/common/commonStyles';
 import useStyles from './styles';
 
+import Swal from 'sweetalert2';
+
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { IFormPatient, IPatient } from '../../utils/interfaces';
 import { useApi } from '../../hooks/patientApi';
 import { phoneMask, rgMask } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
+import { theme } from '../../global/theme';
 
 interface IPatientToEdit {
   state: {
@@ -26,7 +29,7 @@ const Form = (): JSX.Element => {
   const { createPatient, updatePatient } = useApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const { register, handleSubmit, control } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
+  const { register, handleSubmit, control, reset } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
   const editMode = state ? true : false;
 
   const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
@@ -49,13 +52,22 @@ const Form = (): JSX.Element => {
     } catch (e) {
       setError('Ocorreu um erro na criação.');
     } finally {
+      reset();
       setLoading(false);
+      Swal.fire({
+        title: `Registro de paciente ${editMode ? 'atualizado' : 'criado'}!`,
+        icon: 'success',
+        confirmButtonColor: theme.palette.primary.main,
+        customClass: {
+          container: classes.swal
+        }
+      });
     }
   };
 
   const basicData = (
     <div className={classes.sectionContainer}>
-      <Typography className={classes.sectionTitle}>Informações básicas</Typography>
+      <Typography className={classes.sectionTitle} color="primary">Informações básicas</Typography>
       <div className={classes.basicFields}>
         <TextField
           type="text"
@@ -91,15 +103,16 @@ const Form = (): JSX.Element => {
           <Controller
             render={({ field: { onChange, value } }) => (
               <RadioGroup
+                color="primary"
                 aria-label="gender"
                 defaultValue={'1'}
                 value={value ? `${value}` : '1'}
                 onChange={onChange}
                 name="radio-buttons-group"
               >
-                <FormControlLabel value={'1'} control={<Radio />} label="Feminino" />
-                <FormControlLabel value={'2'} control={<Radio />} label="Masculino" />
-                <FormControlLabel value={'3'} control={<Radio />} label="Outro" />
+                <FormControlLabel color="primary" value={'1'} control={<Radio />} label="Feminino" />
+                <FormControlLabel color="primary" value={'2'} control={<Radio />} label="Masculino" />
+                <FormControlLabel color="primary" value={'3'} control={<Radio />} label="Outro" />
               </RadioGroup>
             )}
             control={control}
@@ -162,7 +175,7 @@ const Form = (): JSX.Element => {
 
   const contactData = (
     <div className={classes.sectionContainer}>
-      <Typography variant="h2" className={classes.sectionTitle}>Informações adicionais e de contato</Typography>
+      <Typography color="primary" variant="h2" className={classes.sectionTitle}>Informações adicionais e de contato</Typography>
       <div className={classes.contactFields}>
         <Controller
           name="phone"
@@ -268,7 +281,7 @@ const Form = (): JSX.Element => {
 
   const medicalInfo = (
     <div className={classes.sectionContainer}>
-      <Typography variant="h2" className={classes.sectionTitle}>Informações sobre a consulta</Typography>
+      <Typography color="primary" variant="h2" className={classes.sectionTitle}>Informações sobre a consulta</Typography>
       <div className={classes.medicalFiels}>
         <TextField
           type="text"

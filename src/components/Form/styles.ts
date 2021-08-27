@@ -77,12 +77,6 @@ const useStyles = makeStyles((theme: Theme) =>
       gridTemplateColumns: '1fr 1fr',
       placeItems: 'center'
     },
-    chipContainer: {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      margin: theme.spacing(1),
-    },
     button: {
       width: '50%',
       margin: '20px',
@@ -90,18 +84,44 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.common.white
     },
     '@media (max-width: 1000px)': {
-      input: { width: '90%' },
-      button: { width: '90%' },
-      handleErrorSuccess: { width: '90%' }
+      input: {
+        width: '90%'
+      },
+      button: {
+        width: '90%'
+      },
+      sectionTitle: {
+        fontSize: '1.5rem'
+      }
+    },
+    '@media (max-width: 800px)': {
+      basicFields: {
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: '1fr 1fr',
+        gap: 30
+      },
+      contactFields: {
+        gridTemplateColumns: '1fr',
+        gridTemplateRows: 'grid repeat(6, 1fr)'
+      },
     },
     '@media (max-width: 600px)': {
-      button: { margin: '10px' },
+      button: {
+        margin: '10px'
+      },
       form: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'stretch',
         flexDirection: 'column',
         justifyContent: 'center'
+      },
+      pickers: {
+        gridTemplateColumns: '1fr',
+        gap: 20
       }
+    },
+    swal: {
+      zIndex: 10000
     }
   })
 );

@@ -10,14 +10,16 @@ const useStyles = makeStyles<Theme, ILoadingProps>((theme: Theme) =>
       width: '90%',
       display: ({ isLoading }) => isLoading ? 'flex' : 'block',
       alignItems: ({ isLoading }) => isLoading ? 'center' : 'none',
+      alignSelf: 'center',
     },
     content: {
       display: 'flex',
       justifyContent: 'center'
     },
     title: {
-      fontSize: '4rem',
-      color: theme.palette.common.white
+      fontSize: '3.5rem',
+      color: theme.palette.common.white,
+      padding: theme.spacing(1),
     },
     header: {
       background: theme.palette.primary.main

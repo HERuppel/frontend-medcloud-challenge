@@ -19,6 +19,7 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
       <div className={classes.header}>
         <Typography
           variant="h4"
+          className={classes.title}
         >
           Menu
         </Typography>

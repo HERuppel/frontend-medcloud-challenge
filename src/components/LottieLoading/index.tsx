@@ -2,13 +2,12 @@ import React from 'react';
 
 import LottieView from 'react-lottie';
 
-import loadAnimation from '../../assets/loading1.json';
-import dotsLoading from '../../assets/dotsLoading.json';
+import primaryLoad from '../../assets/primaryLoad.json';
+import dotsLoad from '../../assets/dotsLoad.json';
 
 const defaultOptions = {
   loop: true,
   autoplay: true,
-  animationData: loadAnimation,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
   },
@@ -20,9 +19,9 @@ interface ILottie {
 
 const LottieLoading = ({ dots }: ILottie): JSX.Element => (
     <LottieView
-      options={{...defaultOptions, animationData: dots ? dotsLoading : loadAnimation }}
-      height={dots ? '50%' : '60%'}
-      width={dots ? '30%' : '60%'}
+      options={{...defaultOptions, animationData: dots ? dotsLoad : primaryLoad }}
+      height={dots ? '20%' : '60%'}
+      width={dots ? '20%' : '60%'}
       style={{ alignSelf: 'center', marginTop: dots ? 50 : 0 }}
     />
 );

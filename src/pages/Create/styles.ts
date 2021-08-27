@@ -5,9 +5,8 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       '& > *': {
         margin: theme.spacing(1),
-        width: '25ch',
       },
-      width: '100%',
+      width: '90%',
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'column'
@@ -18,43 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: theme.palette.primary.main
     },
-    form: {
-      width: '100%',
-      height: '100%',
-      display: 'grid',
-      gridTemplateRows: 'repeat(6, 1fr)',
-      gridTemplateColumns: 'repeat(2, 1fr)'
-    },
-    input: {
-      width: '80%',
-      maxWidth: '600px',
-      color: 'black',
-      margin: '10px',
-      backgroundColor: '#fff',
-    },
-    button: {
-      width: '70%',
-      maxWidth: '900px',
-      margin: '20px'
-    },
-    handleErrorSuccess: {
-      width: '70%',
-      maxWidth: '900px',
-      gridColumn: '1/3',
-      justifySelf: 'center',
-    },
-    '@media (max-width: 1000px)': {
-      input: { width: '90%' },
-      button: { width: '90%' },
-      handleErrorSuccess: { width: '90%' }
-    },
-    '@media (max-width: 600px)': {
-      button: { margin: '10px' },
-      form: {
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center'
+    '@media (max-width: 700px)': {
+      title: {
+        fontSize: '2.5rem'
       }
     }
   })

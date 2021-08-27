@@ -11,6 +11,20 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerPaper: {
       width: 250
     },
+    '@media (max-width: 1000px)': {
+      drawerPaper: {
+        width: 60
+      },
+      drawer: {
+        width: 60,
+      },
+      itemText: {
+        display: 'none'
+      },
+      title: {
+        display: 'none'
+      }
+    },
     header: {
       width: '100%',
       height: 70,
@@ -19,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.common.white
+    },
+    title: {
+      fontSize: '2rem'
     },
     navLink: {
       textDecoration: 'none',

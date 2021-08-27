@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       paddingVertical: theme.spacing(1),
       textAlign: 'center',
-      marginTop: theme.spacing(3)
     }
   })
 );

@@ -1,3 +1,4 @@
+import { genders, maritalStatuses } from './enums';
 import { IFormPatient, IPatient } from './interfaces';
 
 export  const rgMask = (value: string): string => {

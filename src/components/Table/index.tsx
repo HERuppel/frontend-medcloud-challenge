@@ -168,7 +168,10 @@ const Table = ({ patients }: ITable): JSX.Element => {
                       <LocalHospitalOutlined />
                     </div>
                     <Typography><span>Motivo da consulta: </span>{patient.subject}</Typography>
-                    <Typography><span>Notas: </span>{patient.notes ?? 'Não possui'}</Typography>
+                    {
+                      patient.notes
+                        && <Typography><span>Notas: </span>{patient.notes}</Typography>
+                    }
                   </div>
               </Box>
             </Collapse>

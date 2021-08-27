@@ -76,6 +76,14 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
 
     await api.put('updatePatient', { ...treatedPatient });
 
+    //route get by id
+
+    const newList: IPatientList[] = { ...patientList };
+
+    console.log(newList);
+
+    //newList[0].values.unshift(treatedPatient);   //INDEX 0 FOR NOW
+
     const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
 
     const patients: IPatientList[] = [

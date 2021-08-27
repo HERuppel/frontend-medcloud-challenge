@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { AssignmentTurnedInSharp, CheckCircleSharp, AssignmentSharp, IndeterminateCheckBoxSharp, GitHub } from '@material-ui/icons';
+import { AssignmentTurnedInSharp, CheckCircleSharp, AssignmentSharp, IndeterminateCheckBoxSharp, GitHub, DnsSharp, WebSharp } from '@material-ui/icons';
 
 import useStyles from './styles';
 
@@ -28,11 +28,11 @@ const Home: React.FC = () => {
             </div>
             <div className={classes.checkList}>
               <div className={classes.itemCheck}>
-                <CheckCircleSharp />
+                <WebSharp />
                 <Typography className={classes.link} component="a" href="https://github.com/HERuppel/frontend-medcloud-challenge" target="_blank" color="textPrimary" variant="h6">Front-end</Typography>
               </div>
               <div className={classes.itemCheck}>
-                <CheckCircleSharp />
+                <DnsSharp />
                 <Typography className={classes.link} component="a" href="https://github.com/HERuppel/backend-medcloud-challenge" target="_blank" color="textPrimary" variant="h6">Back-end</Typography>
               </div>
             </div>

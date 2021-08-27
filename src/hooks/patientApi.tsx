@@ -80,8 +80,6 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
 
     const updatedPatient: IPatient = res.data.patient;
 
-    console.log('UPDATED', updatedPatient);
-
     const listCopy: IPatientList[] = { ...patientList };
 
     const newValues: IPatient[] = listCopy[0].values.map((patient: IPatient) => (patient.creationId === updatedPatient.creationId ? updatedPatient : patient));
@@ -91,21 +89,24 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
       { page: listCopy[0].page, values: newValues }
     ];
 
-    console.log(newList);
-
     setPatientList(newList);
   };
 
   const deletePatient = async(patient: IPatient): Promise<void> => {
       await api.delete(`deletePatient/${patient.creationId}`);
 
-      const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
+      const deletedPatientId = patient.creationId;
 
-      const patients: IPatientList[] = [
-        {page: currentPage, values: response.data?.Items }
+      const listCopy: IPatientList[] = { ...patientList };
+
+      const newValues: IPatient[] = listCopy[0].values.filter((patient: IPatient) => patient.creationId !== deletedPatientId);
+      //INDEX 0 FOR NOW
+
+      const newList: IPatientList[] = [
+        { page: listCopy[0].page, values: newValues }
       ];
 
-      setPatientList(patients);
+      setPatientList(newList);
   };
 
   return (

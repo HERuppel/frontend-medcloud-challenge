@@ -24,15 +24,23 @@ interface IPatientToEdit {
   }
 }
 
-const Form = (): JSX.Element => {
+interface IForm {
+  switchMode: (mode: boolean) => void;
+}
+
+const Form = ({ switchMode }: IForm): JSX.Element => {
   const classes = useStyles();
   const { state } = useLocation() as IPatientToEdit;
   const { createPatient, updatePatient } = useApi();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [editMode, setEditMode] = useState<boolean>(state ? true : false);
   const { register, handleSubmit, control, reset } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
-  const editMode = state ? true : false;
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    switchMode(editMode);
+  }, [editMode]);
 
   const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
     e?.preventDefault();
@@ -55,6 +63,7 @@ const Form = (): JSX.Element => {
       setError('Ocorreu um erro na criação.');
     } finally {
       reset({} as IFormPatient);
+      setEditMode(false);
       setLoading(false);
       Swal.fire({
         title: `Registro de paciente ${editMode ? 'atualizado' : 'criado'}!`,

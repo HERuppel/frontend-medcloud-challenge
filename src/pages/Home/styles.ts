@@ -4,13 +4,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       width: '90%',
-      height: '90%',
+      overflowY: 'scroll',
       borderWidth: .5,
       borderColor: theme.palette.action.selected,
       borderRadius: 5,
-      alignSelf: 'center',
       background: theme.palette.action.selected,
-
+      margin: 20,
       '& > *': {
         textAlign: 'justify'
       }

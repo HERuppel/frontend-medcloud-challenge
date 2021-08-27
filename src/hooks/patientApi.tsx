@@ -44,8 +44,10 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
 
     const newPatientList: IPatientList[] = [...patientList];
 
+
     newPatientList[0].values.unshift(res.data); // INDEX AT 0 WITHOUT PROPER PAGINATION
 
+    console.log('HIER', newPatientList);
     setPatientList(newPatientList);
   };
 
@@ -74,23 +76,24 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
   const updatePatient = async(patient: IFormPatient): Promise<void> => {
     const treatedPatient = treatPatient(patient);
 
-    await api.put('updatePatient', { ...treatedPatient });
+    const res = await api.put('updatePatient', { ...treatedPatient });
 
-    //route get by id
+    const updatedPatient: IPatient = res.data.patient;
 
-    const newList: IPatientList[] = { ...patientList };
+    console.log('UPDATED', updatedPatient);
+
+    const listCopy: IPatientList[] = { ...patientList };
+
+    const newValues: IPatient[] = listCopy[0].values.map((patient: IPatient) => (patient.creationId === updatedPatient.creationId ? updatedPatient : patient));
+    //INDEX 0 FOR NOW
+
+    const newList: IPatientList[] = [
+      { page: listCopy[0].page, values: newValues }
+    ];
 
     console.log(newList);
 
-    //newList[0].values.unshift(treatedPatient);   //INDEX 0 FOR NOW
-
-    const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
-
-    const patients: IPatientList[] = [
-      {page: currentPage, values: response.data?.Items }
-    ];
-
-    setPatientList(patients);
+    setPatientList(newList);
   };
 
   const deletePatient = async(patient: IPatient): Promise<void> => {

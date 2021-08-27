@@ -44,8 +44,6 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
 
     const newPatientList: IPatientList[] = [...patientList];
 
-    console.log(res.data);
-
     newPatientList[0].values.unshift(res.data); // INDEX AT 0 WITHOUT PROPER PAGINATION
 
     setPatientList(newPatientList);
@@ -59,8 +57,6 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
     if (exists.length !== 0) return;
 
     const response = await api.get(`listPatients?offset=${offset}&lastItemReceived=${currentPage?.lastEvaluatedKey.creationId}`);
-
-    console.log(response);
 
     const newPage: IPages = {
       lastEvaluatedKey: response.data?.LastEvaluatedKey ?? 0,

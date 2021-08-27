@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Typography } from '@material-ui/core';
-import { Home, NoteAdd, List as ListIcon } from '@material-ui/icons';
+import { Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Home, NoteAdd, List as ListIcon, GroupSharp } from '@material-ui/icons';
 
 import useStyles from './styles';
 
@@ -17,11 +17,12 @@ const SideBar: React.FC<ISideBar> = ({ open, onClose }: ISideBar) => {
   const menu = (
     <div>
       <div className={classes.header}>
+        <GroupSharp style={{ fontSize: 40, paddingRight: 5 }} />
         <Typography
           variant="h4"
           className={classes.title}
         >
-          Menu
+          Patience
         </Typography>
       </div>
       <List>

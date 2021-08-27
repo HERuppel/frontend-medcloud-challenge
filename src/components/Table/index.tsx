@@ -47,6 +47,7 @@ const Table = ({ patients }: ITable): JSX.Element => {
         confirmButtonColor: theme.palette.primary.main,
         cancelButtonColor: theme.palette.error.main,
         confirmButtonText: 'Deletar',
+        cancelButtonText: 'Cancelar',
         customClass: {
           container: classes.swal
         }
@@ -62,16 +63,23 @@ const Table = ({ patients }: ITable): JSX.Element => {
             }
           });
         }
+        handleClose();
       });
     };
 
     const handleDelete = async (patient: IPatient): Promise<void> => {
-      console.log('delte');
       try {
         setLoading(true);
         await deletePatient(patient);
       } catch (e) {
-        console.log(e);
+        Swal.fire({
+          title: 'Não foi possível deletar o paciente!',
+          icon: 'error',
+          confirmButtonColor: theme.palette.primary.main,
+          customClass: {
+            container: classes.swal
+          }
+        });
       } finally {
         setLoading(false);
       }
@@ -94,8 +102,6 @@ const Table = ({ patients }: ITable): JSX.Element => {
         maritalStatus: maritalStatuses[patient.maritalStatus  as keyof typeof maritalStatuses],
         birthdate: new Date(Number(patient.birthdate)).toString()
       };
-
-      console.log(patientToEdit);
 
       return patientToEdit;
     };

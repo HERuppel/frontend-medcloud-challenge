@@ -78,8 +78,12 @@ const Home: React.FC = () => {
             <Typography color="textPrimary" variant="h6">Context API para gerenciamento de estado global.</Typography>
           </div>
           <div className={classes.itemCheck}>
+            <CheckCircleSharp />
+            <Typography color="textPrimary" variant="h6">Ordenação de pacientes no backend (Sorting Key e KSUID).</Typography>
+          </div>
+          <div className={classes.itemCheck}>
             <IndeterminateCheckBoxSharp />
-            <Typography color="textPrimary" variant="h6">Ordenação e paginação da lista</Typography>
+            <Typography color="textPrimary" variant="h6">Paginação da lista</Typography>
           </div>
         </div>
       </div>

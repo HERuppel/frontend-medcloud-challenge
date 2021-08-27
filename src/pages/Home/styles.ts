@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
         textAlign: 'justify'
       }
     },
-    '@media (max-width: 1000px)': {
+    '@media (max-width: 1050px)': {
       container: {
         height: '100%'
       }

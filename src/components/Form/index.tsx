@@ -16,6 +16,7 @@ import { useApi } from '../../hooks/patientApi';
 import { phoneMask, rgMask } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
 import { theme } from '../../global/theme';
+import { useRef } from 'react';
 
 interface IPatientToEdit {
   state: {
@@ -31,6 +32,7 @@ const Form = (): JSX.Element => {
   const [error, setError] = useState<string>();
   const { register, handleSubmit, control, reset } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
   const editMode = state ? true : false;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
     e?.preventDefault();
@@ -65,11 +67,17 @@ const Form = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    if (error && inputRef.current !== null)
+      inputRef.current.focus();
+  }, [error]);
+
   const basicData = (
     <div className={classes.sectionContainer}>
       <Typography className={classes.sectionTitle} color="primary">Informações básicas</Typography>
       <div className={classes.basicFields}>
         <TextField
+          inputRef={inputRef}
           type="text"
           id="outlined-basic"
           label="Nome"

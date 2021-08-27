@@ -11,23 +11,22 @@ const useStyles = makeStyles<Theme, ILoadingProps>((theme: Theme) =>
       display: ({ isLoading }) => isLoading ? 'flex' : 'block',
       alignItems: ({ isLoading }) => isLoading ? 'center' : 'none',
       alignSelf: 'center',
+      marginBottom: 40
     },
     content: {
       display: 'flex',
       justifyContent: 'center'
     },
     title: {
-      color: theme.palette.common.white,
       padding: theme.spacing(1),
+      fontWeight: 'bold',
+      fontSize: '3.5rem'
     },
     header: {
-      background: theme.palette.primary.main,
       display: 'flex',
-      alignItems: 'center',
-      color: theme.palette.common.white,
+      color: theme.palette.primary.main,
       justifyContent: 'center',
-      borderTopRightRadius: 5,
-      borderTopLeftRadius: 5
+      marginBottom: 20
     }
   })
 );

@@ -36,8 +36,7 @@ const List: React.FC = () => {
           ? <LottieLoading />
           : <>
               <div className={classes.header}>
-                <ListIcon style={{ fontSize: 70 }} />
-                <Typography className={classes.title} variant="h3" >
+                <Typography className={classes.title} color="primary" variant="h2" >
                   Lista de pacientes
                 </Typography>
               </div>

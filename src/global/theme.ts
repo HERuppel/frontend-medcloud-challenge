@@ -30,6 +30,9 @@ export const theme = createTheme({
       black: '#37392E',
       white: '#FFF'
     },
+    text: {
+      primary: '#202020'
+    }
   },
   typography: {
     fontFamily: [

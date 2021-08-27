@@ -52,7 +52,7 @@ const Form = (): JSX.Element => {
     } catch (e) {
       setError('Ocorreu um erro na criação.');
     } finally {
-      reset();
+      reset({} as IFormPatient);
       setLoading(false);
       Swal.fire({
         title: `Registro de paciente ${editMode ? 'atualizado' : 'criado'}!`,

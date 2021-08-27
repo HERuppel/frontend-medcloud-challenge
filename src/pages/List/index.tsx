@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
 import { Typography } from '@material-ui/core';
+import { List as ListIcon } from '@material-ui/icons';
 
 import Table from '../../components/Table';
 import { useApi } from '../../hooks/patientApi';
@@ -35,7 +36,8 @@ const List: React.FC = () => {
           ? <LottieLoading />
           : <>
               <div className={classes.header}>
-                <Typography className={classes.title} variant="h4" >
+                <ListIcon style={{ fontSize: 70 }} />
+                <Typography className={classes.title} variant="h3" >
                   Lista de pacientes
                 </Typography>
               </div>

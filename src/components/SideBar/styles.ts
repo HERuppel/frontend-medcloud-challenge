@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     drawerPaper: {
-      width: 250
+      width: 250,
+      background: theme.palette.primary.main
     },
     '@media (max-width: 1000px)': {
       drawerPaper: {
@@ -39,16 +40,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     navLink: {
       textDecoration: 'none',
-      color: theme.palette.common.black,
+      color: theme.palette.common.white,
 
       '&:hover': {
-        background: theme.palette.action.hover,
+        background: theme.palette.primary.dark,
         transition: '300ms'
       }
     },
     activeNavLink: {
-      color: theme.palette.action.active,
-      background: theme.palette.action.focus,
+      color: theme.palette.common.white,
+      background: theme.palette.primary.dark,
     },
     itemText: {
       marginLeft: 30

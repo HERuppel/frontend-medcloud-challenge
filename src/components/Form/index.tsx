@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TextField, Button, InputLabel, RadioGroup, FormControl, FormControlLabel, FormLabel, Radio, Select, MenuItem, Typography, Chip } from '@material-ui/core';
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -16,7 +16,6 @@ import { useApi } from '../../hooks/patientApi';
 import { phoneMask, rgMask } from '../../utils/functions';
 import { useLocation } from 'react-router-dom';
 import { theme } from '../../global/theme';
-import { useRef } from 'react';
 
 interface IPatientToEdit {
   state: {
@@ -35,8 +34,8 @@ const Form = ({ switchMode }: IForm): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [editMode, setEditMode] = useState<boolean>(state ? true : false);
-  const { register, handleSubmit, control, reset } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { register, handleSubmit, control, reset, setValue } = useForm<IFormPatient>({ defaultValues: state ? { ...state.patientToEdit } : { } as IFormPatient  });
+  const inputRef = useRef<HTMLInputElement[]>([]);
 
   useEffect(() => {
     switchMode(editMode);
@@ -44,8 +43,8 @@ const Form = ({ switchMode }: IForm): JSX.Element => {
 
   const onSubmit: SubmitHandler<IFormPatient> = async (data, e): Promise<void> => {
     e?.preventDefault();
-    if (!data.firstName) { setError('Insira o nome'); return; }
-    if (!data.lastName) { setError('Insira o sobrenome'); return; }
+    if (!data.firstName) { setError('Insira o nome'); inputRef.current[0].focus(); return; }
+    if (!data.lastName) { setError('Insira o sobrenome'); inputRef.current[1].focus(); return; }
     if (!data.phone) { setError('Insira o telefone'); return; }
     if (!data.rg) { setError('Insira o RG'); return; }
     if (!data.occupation) { setError('Insira a ocupação'); return; }
@@ -54,39 +53,59 @@ const Form = ({ switchMode }: IForm): JSX.Element => {
     if (!data.state) { setError('Insira o estado'); return; }
     if (!data.subject) { setError('Insira o assunto da consulta'); return; }
 
+    console.log('MODE', editMode);
+
     try {
       setLoading(true);
       editMode
         ? await updatePatient(data)
         : await createPatient(data);
+
+        Swal.fire({
+          title: `Registro de paciente ${editMode ? 'atualizado' : 'criado'}!`,
+          icon: 'success',
+          confirmButtonColor: theme.palette.primary.main,
+          customClass: {
+            container: classes.swal
+          }
+        });
     } catch (e) {
       setError('Ocorreu um erro na criação.');
-    } finally {
-      reset({} as IFormPatient);
-      setEditMode(false);
-      setLoading(false);
       Swal.fire({
-        title: `Registro de paciente ${editMode ? 'atualizado' : 'criado'}!`,
-        icon: 'success',
+        title: `Ocorreu um erro na ${editMode ? 'edição' : 'criação'} do paciente`,
+        icon: 'error',
         confirmButtonColor: theme.palette.primary.main,
         customClass: {
           container: classes.swal
         }
       });
+    } finally {
+      reset({
+        firstName: '',
+        lastName: '',
+        gender: 1,
+        birthdate: new Date().toString(),
+        maritalStatus: 1,
+        phone: '',
+        rg: '',
+        occupation: '',
+        address: '',
+        city: '',
+        state: '',
+        subject: '',
+        notes: '',
+      }); // For not getting undefined if wish to create a new patient right away
+      setEditMode(false);
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (error && inputRef.current !== null)
-      inputRef.current.focus();
-  }, [error]);
 
   const basicData = (
     <div className={classes.sectionContainer}>
       <Typography className={classes.sectionTitle} color="primary">Informações básicas</Typography>
       <div className={classes.basicFields}>
         <TextField
-          inputRef={inputRef}
+          inputRef={el => inputRef.current[0] = el}
           type="text"
           id="outlined-basic"
           label="Nome"
@@ -101,6 +120,7 @@ const Form = ({ switchMode }: IForm): JSX.Element => {
           {...register('firstName' )}
         />
         <TextField
+          inputRef={el => inputRef.current[1] = el}
           id="outlined-basic"
           label="Sobrenome"
           variant="outlined"
@@ -205,7 +225,8 @@ const Form = ({ switchMode }: IForm): JSX.Element => {
               variant="outlined"
               size="small"
               inputProps={{
-                maxLength: 15 //11 numbers + special characters
+                maxLength: 15, //11 numbers + special characters
+                autoComplete: 'off'
               }}
               error={error === 'Insira o telefone'}
               helperText={error === 'Insira o telefone' ? error : 'Somente números'}
@@ -242,7 +263,8 @@ const Form = ({ switchMode }: IForm): JSX.Element => {
                 error={error === 'Insira o RG'}
                 helperText={error === 'Insira o RG' ? error : 'Somente números'}
                 inputProps={{
-                  maxLength: 12
+                  maxLength: 12,
+                  autoComplete: 'off'
                 }}
                 value={value ? rgMask(value) : ''}
                 onChange={onChange}

@@ -35,9 +35,8 @@ export const PatientApiProvider: React.FC<IProviderChildren> = ({ children }: IP
   } as IPages);
   const offset = 10;
 
-
-
   const createPatient = async(patient: IFormPatient): Promise<void> => {
+    console.log('create', patient);
     const treatedPatient = treatPatient(patient);
 
     const res = await api.post('createPatient', { ...treatedPatient });

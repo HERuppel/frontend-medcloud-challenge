@@ -45,3 +45,9 @@ export interface IPatientList {
   values: IPatient[];
   page: IPages;
 }
+
+export interface IInputProps {
+  name: string;
+  label: string;
+  givenError: string;
+}
